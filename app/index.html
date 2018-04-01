@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>Jobs | Aicumen Technologies</title>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+
+<body>
+  <div class="vertical-center jumbotron">
+    <div id="user" class="text-center container">
+      <h1 class="">Ethereum Workflow</h1>
+      <br>
+      <div class="row justify-content-md-center">
+        <a class="btn btn-info col-md-5" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудника</a>
+        <a class="btn btn-info col-md-5 offset-md-1" href="website/trash/h.html" type="button">Подать pапорт</a>
+      </div>
+    </div>
+    <div id="admin" class="text-center container" style="display: block;">
+      <h1 class="">Ethereum Workflow ADMINNISTRATOR</h1>
+      <br>
+      <div class="row justify-content-md-center">
+        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудников</a>
+        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Должности</a>
+        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Подразделения</a>
+        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/trash/h.html" type="button">Pапортa</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+  function startapp(web3){
+    $.get("/initializeWeb3",{web3: web3}, function(data){
+      if(data!=null)
+      {
+
+      }
+    });
+  }
+
+  window.addEventListener('load', function() {
+    getWeb3(startapp);
+  });
+
+  function getWeb3(callback) {
+    if (typeof window.web3 === 'undefined') {
+      alert("Please use a web3 browser or install Metamask browser extension")
+      console.error("Please use a web3 browser");
+    } else {
+      var myWeb3 = new Web3(window.web3.currentProvider);
+      myWeb3.eth.defaultAccount = window.web3.eth.defaultAccount;
+
+      callback(myWeb3);
+    }
+
+  };
+
+  $('document').ready(function(){
+    isAdmin();
+  });
+
+  function isAdmin(){
+    var flag;
+    document.getElementById('user').style.display = 'block';
+    document.getElementById('admin').style.display = 'none';
+    $.post("/IsAdmin", function(data){
+      if(data != null){
+        flag = data;
+        if(data == true)
+        {
+          console.log("Admin live");
+          $.post("/AsrtAdmin", function(data){
+            if(data != null){
+              if (data == true){
+                console.log("YouAdmin");
+                document.getElementById('admin').style.display = 'block';
+                document.getElementById('user').style.display = 'none';
+              }else{
+                console.log("YouUser");
+
+              }
+              
+            }
+          })
+
+        }else{
+          $.post("/SetAdmin", function(data){
+            if(data != null){
+              if(data == true){
+                console.log("SetAdmin");
+                document.getElementById('admin').style.display = 'block';
+                document.getElementById('user').style.display = 'none';
+              }
+            }
+          })
+      }
+      }
+    });
+    
+
+    }
+  
+
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>Add Employer</title>
+    <script
+  			  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  			  crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script>
+      $(document).ready(function(){
+      });
+
+    </script>
+    <style>
+    </style>
+  </head>
+  <body>
+    <h1 class="jumbotron" onclick="document.location='/'" id="jobIDHead">Добавление данных пользователя</h1>
+    <br>
+      <div class="container-fluid jumbotron">
+        <form method="post" class="form-group" action="/">
+          <input name="fName" type="text" class="form-control col-sm-5" id="fName" placeholder="Имя"><br>
+          <input name="mName" type="text" class="form-control col-sm-5" id="mName" placeholder="Фамилия"><br>
+          <input name="lName" type="text" class="form-control col-sm-5" id="lName" placeholder="Отчество"><br>
+          <input name="rank" type="text" class="form-control col-sm-5" id="rank" placeholder="Звание"><br>
+          <button id="addEmployerBtn" disabled type="button" onclick="addEmployer()" class="btn btn-success" >Добавить данные</button>
+        </form>
+      </div>
+  </body>
+  <script>
+
+  function addEmployer(){
+
+    var fName = $('#fName').val();
+    var mName = $('#mName').val();
+    var lName = $('#lName').val();
+    var rank = $('#rank').val();
+
+      $.post("/CreateEmployer",{fName : fName, mName : mName, lName : lName,
+        rank : rank}, function(data){
+                if(data==true)
+                  {
+                    alert("Сотрудник добавлен!!");
+                    window.location.replace("/website/Workflow/EmployerDashboard.html");
+                  }
+              });
+  }
+
+  $('.form-control').bind("keypress", function(){
+    var fName = $('#fName').val();
+    var mName = $('#mName').val();
+    var lName = $('#lName').val();
+    var rank  = $('#rank').val();
+
+    if(fName == "" || mName == "" || lName == "" || rank == "" ){
+      $('#addEmployerBtn').attr("disabled","");
+    }else {
+      $('#addEmployerBtn').removeAttr("disabled");
+    }
+  });
+
+  </script>
+</html>
