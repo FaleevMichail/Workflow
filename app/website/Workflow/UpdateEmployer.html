@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>Uodate Employer</title>
+    <script
+  			  src="/lib/js/jquery.min.js"
+  			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  			  crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script>
+        var employerID;
+        var employerNewRank;
+        var rankArray = new Array;
+
+        $(document).ready(function(){
+          var url = window.location.href;
+          GetRanks();
+          $.post("/ParseMyUrlEmpId",{url: url}, function(data){
+            if(data!=null)
+            {
+              employerID = data;
+              GetEmployerFromEmployerNum();
+            }
+          });
+        });
+        
+        function GetEmployerFromEmployerNum(){
+            var employerList = new Array();
+            $.post("/GetEmployerFromNum", {empNum:employerID}, function(data){
+                if(data != null){
+                    employerList = data;
+                    console.log(employerList);
+                    var name = employerList[1];
+                    var family = employerList[2];
+                    var patronymic = employerList[3];
+                    employerNewRank = employerList[4];
+                    $('#employerIDHead').html("Изменение данных сотрудника: <b>" + name + " " + family + " " + patronymic + "</b>");
+          }
+            })
+        }
+
+        function GetRanks(){
+          var size;
+          var rank;
+          $.post("/GetRanks", function(data){
+            if(data!=null)
+            {
+              size = data.length;
+              var ranks;
+              for(var i = 0; i < size; i++){
+                $.post("/GetRankFromNum", {rankNum:i}, function(data){
+                  if(data != null){
+                    console.log("Zvanie", data);
+                    rankArray.push(data)
+                    $("#rankSelect").append('<option value = "' + data[0] + '">' + data[1] + '</option>');
+                  }
+                })
+              }
+              
+              //document.getElementById('rankSelect').innerHTML = ranks;
+              
+            }
+          })
+        }
+
+
+        function GetEmployerRank(obj){
+          employerNewRank = rankArray[obj.options[obj.selectedIndex].value][1];
+        }
+
+        function updateEmployer(){
+            $.post("/UpdateEmployerFromNum",{num:employerID, rank : employerNewRank}, function(data){
+                if(data==true)
+                  {
+                    alert("Сотрудник обновлен!!");
+                    window.location.replace("/website/Workflow/EmployerDashboard.html");
+                  }
+              });
+        }
+
+        $('.form-control').bind("keypress", function(){
+            var rank  = $('#rank').val();
+
+            if(rank == "" ){
+                $('#updateEmployerBtn').attr("disabled","");
+            }else {
+                $('#updateEmployerBtn').removeAttr("disabled");
+    }
+  });
+
+    </script>
+    <style>
+    </style>
+  </head>
+    <body>
+        <h1 class="jumbotron" id="employerIDHead" onclick="document.location='/'" >Kek</h1>
+        <br>
+            <div class="container-fluid jumbotron">
+                <form method="post" class="form-group" action="/">
+                  <select id="rankSelect" onchange="GetEmployerRank(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+
+                    </select>
+                    <select class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+                        <option >Отдел Режима</option>
+                        <option >Информационно-библиотченый отдел</option>
+                        <option >Финансовый отдел</option>
+                        <option >Отдел материально-технического обеспечения</option>
+                        <option >Кафедра 732 ИКСИ</option>
+                    </select>
+                    <select class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+                        <option>Начальник отдела</option>
+                        <option>Зам. начальник отдела</option>
+                        <option>Консультант</option>
+                        <option>Слушатель</option>
+                        <option>Преподаватель</option>
+                    </select>
+                    
+                </form>
+                <button id="updateEmployerBtn" onclick="updateEmployer()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 9.666667%;" >Изменить данные</button>
+            </div>
+            
+    </body>
+  </html>
+        

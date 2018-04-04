@@ -3,18 +3,17 @@
 <head>
   <title>Dashboard | Employer</title>
   <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  src="./lib/js/jquery.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
   <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 
 <body>
-  <h1 class="jumbotron" onclick="document.location='/'">Данные сотрудника</h1>
+  <h1 id="Data" class="jumbotron" onclick="document.location='/'">Данные сотрудника</h1>
   <br>
     <ul>
       <li class="row">
@@ -22,14 +21,15 @@
         <label class="col-md-2 font-weight-bold">Фамилия</label>
         <label class="col-md-2 font-weight-bold">Отчество</label>
         <label class="col-md-2 font-weight-bold">Звание</label>
+        <lable class="col-md-2 font-weight-bold">Изменить статус</lable>
       </li>
-      <div id="employerList">
+      <div id="employerList" >
       </div>
     </ul>
   <br>
-  <div class="row justify-content-md-center">
-        <button id="addData" disabled style="max-width: 23.667%;" class="btn btn-info col-md-5" href="AddEmployer.html" type="button">Добавить данные сотрудника</button>
-        <button id="upgradeData" style="max-width: 23.667%;" class="btn btn-info col-md-5 offset-md-1" href="UpdateEmployer.html" type="button">Изменить данные сотрудника</button>
+  <div id="employerButton" class="row justify-content-md-center">
+        <!--<button id="addData" disabled style="max-width: 23.667%;" class="btn btn-info col-md-5" href="AddEmployer.html" type="button">Добавить данные сотрудника</button>
+        <button id="upgradeData" style="max-width: 23.667%;" class="btn btn-info col-md-5 offset-md-1" href="UpdateEmployer.html" type="button">Изменить данные сотрудника</button>-->
   </div>
 </ul> 
 </br>
@@ -41,53 +41,58 @@ $('document').ready(function(){
 
 function refreshEmployerdata(){
 
+  $("#employerList").empty();
   var adminFlag;
   var employerList = new Array();
+  var employerArrSz;
 
   $.post("/AsrtAdmin", function(data){
     if(data != null){
       adminFlag = data;
       if (data == true){
         console.log("YouAdmin");
+        $('#Data').html("Данные сотрудников");
       }else{
        console.log("YouUser");
+       $('#Data').html("Данные сотрудникa");
       }
     }
   });
 
+  $.post("/GetEmployerArraySize", function(data){
+    console.log(data.length);
+    if(data != null){
+      employerArrSz = data.length;
+    }
+  })
+  
+
   setTimeout(function(){
     if(adminFlag){
-      var employerArrSize;
-      $.post("/GetEmployerArraySize", function(data){
-        console.log(data);
-        if(data != null){
-          employerArrSize = data;
-        }
-      })
-      console.log(employerArrSize);
-      for (var i = 0; i < 4; i++){
+      console.log(employerArrSz);
+      for (var i = 0; i < employerArrSz; i++){
         $.post("/GetEmployerFromNum", {empNum:i}, function(data){
           var status, buttonClass, liClass;
-          console.log(data);
           employerList[i] = new Array();
           if(data != null){
             employerList[i] = data;
-            if(employerList[i][7]){
-              status = "Deactivate";
+            console.log(employerList[i]);
+            if(employerList[i][5]){
+              status = "Отключить";
               buttonClass = "btn-danger";
               liClass = "";
             }else {
-              status = "Activate";
+              status = "Включить";
               buttonClass = "btn-success";
               liClass = "bg-secondary"
             }
 
-            $("#employerList").append('<li class="row">' + liClass + '">' +
+            $("#employerList").append('<li class="row">' +
                 '<div class="col-md-2">' + employerList[i][1] + '</div>' +
-                '<a class="col-md-4 font-weight-bold" href="/AddEmployer.html?jobID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +
-                '<div class="col-md-2">' + employerList[i][1] + '</div>' +
-                '<div class="col-md-2">' + employerList[i][2] + '</div>' +
-                '<div class="col-md-2">' + employerList[i][5] + '</div>' +
+                '<a class="col-md-2 " href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
+                '<div class="col-md-2">' + employerList[i][3] + '</div>' +
+                '<div class="col-md-2">' + employerList[i][4] + '</div>' +
+                '<input type="button" onclick="toggleStatus(\''+ employerList[i][0] +'\','+employerList[i][5]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
                 '</li>' +
                 '<br>');
           }
@@ -100,18 +105,35 @@ function refreshEmployerdata(){
           employerList = data;
           $('#addData').attr("disabled","");
           $("#employerList").append('<li class="row">' +
-                '<div class="col-md-2">' + employerList[0] + '</div>' +
-                '<div class="col-md-2">' + employerList[1] + '</div>' +
-                '<div class="col-md-2">' + employerList[2] + '</div>' +
-                '<div class="col-md-2">' + employerList[5] + '</div>' +
+                '<div class="col-md-2">' + employerList[i][1] + '</div>' +
+                '<a class="col-md-2 " href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
+                '<div class="col-md-2">' + employerList[i][3] + '</div>' +
+                '<div class="col-md-2">' + employerList[i][4] + '</div>' +
                 '</li>' +
                 '<br>');
-        }else{
+          $("#employerButton").append('<li class="row">' +
+            //'<div id="employerButton" class="row justify-content-md-center">'+
+            '<button id="addData" disabled style="max-width: 23.667%;" class="btn btn-info col-md-5" href="AddEmployer.html" type="button">Добавить данные сотрудника</button>' +
+            '<button id="upgradeData" style="max-width: 23.667%;" class="btn btn-info col-md-5 offset-md-1" href="UpdateEmployer.html" type="button">Изменить данные сотрудника</button>')
+            //'</div>'
+          }else{
         $('#upgradeData').attr("disabled","");
         }
       });
     }
   }, 400)
+}
+
+function toggleStatus(empNum, realStatus){
+
+  console.log("Tell me");
+  $.post("/UpdateStatusEmployer", {empNum: empNum, newStatus : !realStatus} , function(data){
+    if(data===true)
+    {
+      alert("status set!");
+    }
+    });
+    refreshEmployerdata();
 }
 
 </script>

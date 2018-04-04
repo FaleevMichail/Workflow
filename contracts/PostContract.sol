@@ -19,7 +19,12 @@ contract PostContract is AdminContract{
     uint postID;
 
     function PostContract() public{
-
+        postArray.push(PostStruct(0, "Начальник отдела", true));
+        postArray.push(PostStruct(1, "Зам. начальник отдела", true));
+        postArray.push(PostStruct(2, "Консультант", true));
+        postArray.push(PostStruct(3, "Слушатель", true));
+        postArray.push(PostStruct(4, "Преподаватель", true));
+        uint postID = 5;
     }
 
     function CreatePost(string _title) returns (bool){
@@ -56,4 +61,26 @@ contract PostContract is AdminContract{
         return (ret_title, ret_status);
     }
 
+    function GetDepartmentArraySize() returns(uint[]){
+        uint[] res;
+        for (uint i = 0; i < departmentArray.length; i++){
+            res.push(1);
+        }
+        return(res);
+    }
+
+    function GetDepartmentFromDepartmentNum(uint _num) returns(
+        uint num,
+        string title,
+        bool status){
+            return (
+                departmentArray[_num].departmentId,
+                departmentArray[_num].departmentTitle,
+                departmentArray[_num].departmentStatus);
+    }
+
+    function UpdateStatusDepartment(uint _num, bool _newStatus) returns (bool updateStatus) {
+        departmentArray[_num].departmentStatus = _newStatus;
+        return true;
+    }
 }

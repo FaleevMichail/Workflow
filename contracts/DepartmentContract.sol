@@ -19,7 +19,12 @@ contract DepartmentContract is AdminContract{
     uint departmentID;
 
     function DepartmentContract() public{
-
+        departmentArray.push(DepartmentStruct(0, "Отдел Режима", true));
+        departmentArray.push(DepartmentStruct(1, "Информационно-библиотченый отдел", true));
+        departmentArray.push(DepartmentStruct(2, "Финансовый отдел", true));
+        departmentArray.push(DepartmentStruct(3, "Отдел материально-технического обеспечения", true));
+        departmentArray.push(DepartmentStruct(4, "Кафедра 732 ИКСИ", true));
+        uint departmentID = 5;
     }
 
     function CreateDepartment(string _title) returns (bool){
@@ -54,5 +59,28 @@ contract DepartmentContract is AdminContract{
         ret_title = departmentArray[_departmentId].departmentTitle;
         ret_status = departmentArray[_departmentId].departmentStatus;
         return (ret_title, ret_status);
+    }
+
+    function GetDepartmentArraySize() returns(uint[]){
+        uint[] res;
+        for (uint i = 0; i < departmentArray.length; i++){
+            res.push(1);
+        }
+        return(res);
+    }
+
+    function GetDepartmentFromDepartmentNum(uint _num) returns(
+        uint num,
+        string title,
+        bool status){
+            return (
+                departmentArray[_num].departmentId,
+                departmentArray[_num].departmentTitle,
+                departmentArray[_num].departmentStatus);
+    }
+
+    function UpdateStatusDepartment(uint _num, bool _newStatus) returns (bool updateStatus) {
+        departmentArray[_num].departmentStatus = _newStatus;
+        return true;
     }
 }

@@ -2,15 +2,12 @@
 
 pragma solidity ^0.4.18;
 
-//import "./PostContract.sol";
-//import "./DepartmentContract.sol";
-//import "./AdminContract.sol";
-
 contract EmployerContract{
 
     mapping (address => uint) employerAddr_employerNum;
     mapping (uint => uint[]) postNum_employerNum;
     mapping (uint => uint[]) departmentNum_employerNum;
+    //mapping (uint => string) number_rank;
 
     struct EmployerStruct{
         uint employerNum;
@@ -20,13 +17,55 @@ contract EmployerContract{
         uint employerPostID;
         uint employerDepartmentID;
         string employerRank;
+        uint employerRankNum;
         bool employerStatus;
     }
 
     EmployerStruct[] employerArray;
+    string[] rankArray;
     uint employerNumber;
 
     function EmployerContract() public {
+        RankCreater();
+        employerArray.push(EmployerStruct(0, "Иван", "Липугин", "Александрович", 1, 1, "Рядовой", 0 , true));
+        employerArray.push(EmployerStruct(1, "Михаил", "Фолев", "Петрович", 2, 2, "Ефрейтор", 1 , true));
+        employerArray.push(EmployerStruct(2, "Андрей", "Девятов", "Викторович", 3, 3, "Младший сержант", 2, true));
+        employerArray.push(EmployerStruct(3, "Алексей", "Лексусов", "Тринеевич", 4, 4, "Младший сержант", 2, true));
+        employerNumber = 4;
+        employerAddr_employerNum[msg.sender] = 2;
+    }
+
+    function RankCreater() returns(bool) {
+        rankArray.push("Рядовой");
+        rankArray.push("Ефрейтор");
+        rankArray.push("Младший Сержант");
+        rankArray.push("Сержант");
+        rankArray.push("Старший Сержант");
+        rankArray.push("Прапорщик");
+        rankArray.push("Страший прапорщий");
+        rankArray.push("Младший лейтенант");
+        rankArray.push("Лейтенант");
+        rankArray.push("Старший Лейтенант");
+        rankArray.push("Капитан");
+        rankArray.push("Майор");
+        rankArray.push("Подполковник");
+        rankArray.push("Полковник");
+        rankArray.push("Генерал-Майор");
+        rankArray.push("Генерал-лейтенант");
+        rankArray.push("Генерал-полковник");
+        return true;
+    }
+
+    function GetRankFromNum(uint rankNum) returns(uint num, string rank){
+        return(rankNum, rankArray[rankNum]);
+    }
+
+    function GetRanks() returns(uint[]){
+        uint[] ranks;
+        for (uint i = 0; i < rankArray.length; i++){
+            ranks.push(1);
+        }
+        return(ranks);
     }
 
     function CreateEmployer(
@@ -44,6 +83,7 @@ contract EmployerContract{
                 employerPostID: 0,
                 employerDepartmentID: 0,
                 employerRank: _rank,
+                employerRankNum: 0,
                 employerStatus: true
             });
             employerAddr_employerNum[msg.sender] = employerNumber;
@@ -59,7 +99,15 @@ contract EmployerContract{
         return true;
     }
 
-    function UbdateStatusEmployer(uint _employerNum, bool _newStatus) returns (bool updateStatus) {
+    function UpdateEmployerFromNum(
+        uint num,
+        string _newRank
+    ) returns (bool updateEmployer){
+        employerArray[num].employerRank = _newRank;
+        return true;
+    }
+
+    function UpdateStatusEmployer(uint _employerNum, bool _newStatus) returns (bool updateStatus) {
         employerArray[_employerNum].employerStatus = _newStatus;
         return true;
     }
@@ -111,40 +159,63 @@ contract EmployerContract{
     }
 
     function GetEmployerFromEmployerNum(uint _employerNum) returns(
+        uint num,
         string name,
         string family, 
         string patronymic,
-        uint postId,
-        uint departmentId, 
+        //uint postId,
+        //uint departmentId, 
         string rank,
         bool status){
             return (
+                employerArray[_employerNum].employerNum,
                 employerArray[_employerNum].employerName,
                 employerArray[_employerNum].employerFamily,
                 employerArray[_employerNum].employerPatronymic,
-                employerArray[_employerNum].employerPostID,
-                employerArray[_employerNum].employerDepartmentID,
+                //employerArray[_employerNum].employerPostID,
+                //employerArray[_employerNum].employerDepartmentID,
                 employerArray[_employerNum].employerRank,
                 employerArray[_employerNum].employerStatus);
         }
 
+    function GetEmployerWorkplaceFromNum(uint _employerNum) returns(
+        uint postId,
+        uint departmentId){
+            return(
+                employerArray[_employerNum].employerPostID,
+                employerArray[_employerNum].employerDepartmentID
+            );
+    }
+
     function GetEmployerFromEmployerAddr() returns(
+        uint num,
         string name,
         string family, 
         string patronymic,
-        uint postId,
-        uint departmentId, 
+        //uint postId,
+        //uint departmentId, 
         string rank,
         bool status){
-            return (
+            return(
+                employerArray[employerAddr_employerNum[msg.sender]].employerNum,
                 employerArray[employerAddr_employerNum[msg.sender]].employerName,
                 employerArray[employerAddr_employerNum[msg.sender]].employerFamily,
                 employerArray[employerAddr_employerNum[msg.sender]].employerPatronymic,
-                employerArray[employerAddr_employerNum[msg.sender]].employerPostID,
-                employerArray[employerAddr_employerNum[msg.sender]].employerDepartmentID,
+                //employerArray[employerAddr_employerNum[msg.sender]].employerPostID,
+                //employerArray[employerAddr_employerNum[msg.sender]].employerDepartmentID,
                 employerArray[employerAddr_employerNum[msg.sender]].employerRank,
-                employerArray[employerAddr_employerNum[msg.sender]].employerStatus);
+                employerArray[employerAddr_employerNum[msg.sender]].employerStatus
+                );
         }
+
+    function GetEmployerWorkplaceFromAddr() returns(
+        uint postId,
+        uint departmentId){
+            return(
+                employerArray[employerAddr_employerNum[msg.sender]].employerPostID,
+                employerArray[employerAddr_employerNum[msg.sender]].employerDepartmentID
+            );
+    }
 
     function GetEmployerNumFromEmployerAddr() returns(uint num){
         num = employerAddr_employerNum[msg.sender];

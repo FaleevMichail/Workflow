@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>Department | Employers</title>
+    <script
+  			  src="./lib/js/jquery.min.js"
+  			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  			  crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="./lib/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script>
+        var departmentID;
+
+
+        $(document).ready(function(){
+          var url = window.location.href;
+          $.post("/ParseMyUrlDepId",{url: url}, function(data){
+            if(data!=null)
+            {
+              departmentID = data;
+              GetDepartmentFromDepartmentNum();
+            }
+          });
+        });
+
+        function GetDepartmentFromDepartmentNum(){
+            var departmentList = new Array();
+            $.post("/GetDepartmentFromDepartmentNum", {depNum:departmentID}, function(data){
+                if(data != null){
+                    departmentList = data;
+                    console.log(departmentList);
+                    var title = departmentList[1];
+                    $('#departmentIDHead').html("Сотрудники подразделения: <b>" + title + "</b>");
+                }
+            })
+        }
+
+    </script>
+    <style>
+    </style>
+  </head>
+    <body>
+        <h1 class="jumbotron" id="departmentIDHead" onclick="document.location='/'" >Kek</h1>
+        <br>
+        <ul>
+                <li class="row">
+                  <label class="col-md-2 font-weight-bold">Имя</label>
+                  <label class="col-md-2 font-weight-bold">Фамилия</label>
+                  <label class="col-md-2 font-weight-bold">Отчество</label>
+                  <label class="col-md-2 font-weight-bold">Звание</label>
+                  <lable class="col-md-2 font-weight-bold">Изменить статус</lable>
+                </li>
+                <div id="employerList" >
+                </div>
+        </ul>
+    </body>
+  </html>

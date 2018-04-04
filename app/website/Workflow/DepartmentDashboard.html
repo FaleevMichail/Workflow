@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard | Employer</title>
+  <title>Department | Dashboard</title>
   <script
   src="./lib/js/jquery.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 
-  <script type="text/javascript" src="./lib/js/jquery.min.js"></script>
   <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 
 <body>
-  <h1 id="Data" class="jumbotron" onclick="document.location='/'">Данные должностей</h1>
+  <h1 class="jumbotron" onclick="document.location='/'">Данные подразделений</h1>
   <br>
   <div class="">
     <ul>
@@ -23,14 +22,16 @@
         <lable class="col-md-5 font-weight-bold">Изменить статус</lable>
       </li>
       <div id="departmentList" >
-      </div>
+      
+    </div>
+    <button id="addDepartmentBt" style="max-width: 23.667%;" class="btn btn-info col-md-5 " onclick="AddDepartment()" type="button">Добавить подразделение</button>
     </ul>
+    
   </div>
   <br>
-  <div id="employerButton" class="row justify-content-md-center">
-        <button id="addDepartment" style="max-width: 23.667%;" class="btn btn-success col-md-5 offset-md-1" onclick="addDepartment()" type="button">Добавить подразделение</button>
+  <div id="createDepartmentDiv" class="container-fluid jumbotron">
+      
   </div>
-</ul> 
 </br>
 <script type="text/javascript">
 
@@ -50,10 +51,10 @@ function refreshDepartmentdata(){
       adminFlag = data;
       if (data == true){
         console.log("YouAdmin");
-        $('#Data').html("Данные должностей");
+        $('#Data').html("Данные подразделений");
       }else{
        console.log("YouUser");
-       $('#Data').html("Данные должностей");
+       $('#Data').html("Данные подразделений");
       }
     }
   });
@@ -111,6 +112,38 @@ function toggleStatus(depNum, realStatus){
     refreshDepartmentdata();
 }
 
+var depTitle;
+function AddDepartment(){
+
+  $("#createDepartmentDiv").append(
+    '<form method="post" class="form-group" action="/">' +
+    '<input name="departTitle" type="text" class="form-control col-sm-5" id="depTitle" placeholder="Название подразделения"><br>' +
+    '<button id="addDepartmentBtn" disabled type="button" onclick="CreateDepartment()" class="btn btn-success" >Добавить данные</button>' +
+    '</form>'
+  )
+  
+  $('.form-control').bind("keypress", function(){
+    var departTitle  = $('#departTitle').val();
+
+    if(depTitle == "" ){
+      $('#addDepartmentBtn').attr("disabled","");
+    }else {
+      $('#addDepartmentBtn').removeAttr("disabled");
+    }
+  });
+};
+
+function CreateDepartment(){
+    $("#addDepartmentBt").css("display", "none");
+    depTitle = $('#depTitle').val();
+    $.post("/CreateDepartment", {depTitle:depTitle}, function(data){
+      if(data == true){
+          alert("Подразделение добавлено");
+          refreshDepartmentdata();
+      }
+  })
+  
+}
 </script>
 </body>
 </html>
