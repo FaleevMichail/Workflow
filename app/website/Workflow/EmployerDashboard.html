@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard | Employer</title>
+  <title>Employer | Dashboard</title>
   <script
   src="./lib/js/jquery.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -17,11 +17,13 @@
   <br>
     <ul>
       <li class="row">
-        <label class="col-md-2 font-weight-bold">Имя</label>
-        <label class="col-md-2 font-weight-bold">Фамилия</label>
-        <label class="col-md-2 font-weight-bold">Отчество</label>
-        <label class="col-md-2 font-weight-bold">Звание</label>
-        <lable class="col-md-2 font-weight-bold">Изменить статус</lable>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Должность</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Подразделение</label>
+        <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Изменить статус</lable>
       </li>
       <div id="employerList" >
       </div>
@@ -44,6 +46,7 @@ function refreshEmployerdata(){
   $("#employerList").empty();
   var adminFlag;
   var employerList = new Array();
+  var employerWorkList = new Array();
   var employerArrSz;
 
   $.post("/AsrtAdmin", function(data){
@@ -66,17 +69,54 @@ function refreshEmployerdata(){
     }
   })
   
+  var size;
+  var departmentArray = new Array;
+  var postArray = new Array;
+
+  $.post("/GetDepartmentArraySize", function(data){
+    console.log(data.length);
+    if(data != null){
+      var departmentArrSz = data.length;
+      for(var i = 0; i < departmentArrSz; i++){
+        $.post("/GetDepartmentFromDepartmentNum", {depNum:i}, function(data){
+          if(data != null){
+            console.log("Department", data[1]);
+            departmentArray.push(data[1])
+          }
+        })
+      }
+    }
+  })
+
+  $.post("/GetPostArraySize", function(data){
+    console.log("GetPostArraySize: ", data.length);
+    if(data != null){
+      var postArrSz = data.length;
+      for(var i = 0; i < postArrSz; i++){
+        $.post("/GetPostFromPostNum", {postNum:i}, function(data){
+          if(data != null){
+            console.log("GetPostFromPostNum: ", data[1]);
+            postArray.push(data[1])
+          }
+        })
+      }
+    }
+  })
 
   setTimeout(function(){
+    console.log("DATA: ",departmentArray);
     if(adminFlag){
       console.log(employerArrSz);
       for (var i = 0; i < employerArrSz; i++){
         $.post("/GetEmployerFromNum", {empNum:i}, function(data){
           var status, buttonClass, liClass;
           employerList[i] = new Array();
+          employerWorkList[i] = new Array();
           if(data != null){
-            employerList[i] = data;
+            employerList[i] = data[0];
+            employerWorkList[i] = data[1];
             console.log(employerList[i]);
+            console.log(employerWorkList[i]);
             if(employerList[i][5]){
               status = "Отключить";
               buttonClass = "btn-danger";
@@ -88,10 +128,12 @@ function refreshEmployerdata(){
             }
 
             $("#employerList").append('<li class="row">' +
-                '<div class="col-md-2">' + employerList[i][1] + '</div>' +
-                '<a class="col-md-2 " href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
-                '<div class="col-md-2">' + employerList[i][3] + '</div>' +
-                '<div class="col-md-2">' + employerList[i][4] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][1] + '</div>' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][3] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][4] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + postArray[employerWorkList[i][0]] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentArray[employerWorkList[i][1]] + '</div>' +
                 '<input type="button" onclick="toggleStatus(\''+ employerList[i][0] +'\','+employerList[i][5]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
                 '</li>' +
                 '<br>');
@@ -105,10 +147,12 @@ function refreshEmployerdata(){
           employerList = data;
           $('#addData').attr("disabled","");
           $("#employerList").append('<li class="row">' +
-                '<div class="col-md-2">' + employerList[i][1] + '</div>' +
-                '<a class="col-md-2 " href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
-                '<div class="col-md-2">' + employerList[i][3] + '</div>' +
-                '<div class="col-md-2">' + employerList[i][4] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][1] + '</div>' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][3] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][4] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + postArray[employerWorkList[i][0]] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentArray[employerWorkList[i][1]] + '</div>' +
                 '</li>' +
                 '<br>');
           $("#employerButton").append('<li class="row">' +
@@ -130,10 +174,9 @@ function toggleStatus(empNum, realStatus){
   $.post("/UpdateStatusEmployer", {empNum: empNum, newStatus : !realStatus} , function(data){
     if(data===true)
     {
-      alert("status set!");
+      refreshEmployerdata();
     }
-    });
-    refreshEmployerdata();
+  });
 }
 
 </script>

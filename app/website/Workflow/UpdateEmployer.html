@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <html>
   <head>
-    <title>Uodate Employer</title>
+    <title>Employer | Update</title>
     <script
   			  src="/lib/js/jquery.min.js"
   			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -12,40 +12,58 @@
     <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <script>
-        var employerID;
-        var employerNewRank;
         var rankArray = new Array;
+
+        var departmentArray = new Array;
+
+        var postArray = new Array;
 
         $(document).ready(function(){
           var url = window.location.href;
-          GetRanks();
+
           $.post("/ParseMyUrlEmpId",{url: url}, function(data){
             if(data!=null)
             {
-              employerID = data;
+              document.employerNum = data;
               GetEmployerFromEmployerNum();
+              GetRanks();
+              GetDepartments();
+              GetPosts();
             }
           });
+
+
         });
         
         function GetEmployerFromEmployerNum(){
-            var employerList = new Array();
-            $.post("/GetEmployerFromNum", {empNum:employerID}, function(data){
-                if(data != null){
-                    employerList = data;
-                    console.log(employerList);
-                    var name = employerList[1];
-                    var family = employerList[2];
-                    var patronymic = employerList[3];
-                    employerNewRank = employerList[4];
-                    $('#employerIDHead').html("Изменение данных сотрудника: <b>" + name + " " + family + " " + patronymic + "</b>");
-          }
-            })
+            var employerList = new Array;
+            $.ajax({
+              type: 'POST',
+              url: '/GetEmployerFromNum',
+              data: {empNum:document.employerNum},
+              success: function(data){
+                          if(data != null){
+                            employerList = data[0];
+                            employerWorkplaceList = data[1];
+                            console.log(employerList);
+                            var name = employerList[1];
+                            var family = employerList[2];
+                            var patronymic = employerList[3];
+                            document.employerNewRank = employerList[4];
+                            document.employerNewPost = employerWorkplaceList[0];
+                            document.employerNewDepartment = employerWorkplaceList[1];
+                            $('#employerIDHead').html("Изменение данных сотрудника: <b>" + name + " " + family + " " + patronymic + "</b>");
+                          }
+                        },
+              async: false
+            });
         }
 
         function GetRanks(){
           var size;
           var rank;
+          console.log("Zvanie", document.employerNewRank);
+          $("#rankSelect").append('<option>' + document.employerNewRank + '</option>');
           $.post("/GetRanks", function(data){
             if(data!=null)
             {
@@ -60,26 +78,131 @@
                   }
                 })
               }
-              
-              //document.getElementById('rankSelect').innerHTML = ranks;
-              
+            }
+          })
+        }
+
+        function GetDepartments(){
+          
+          var department;
+          $.post("/GetDepartmentArraySize", function(data){
+            console.log(data.length);
+            if(data != null){
+              var departmentArrSz = data.length;
+
+              for(var i = 0; i < departmentArrSz; i++){
+                departmentArray[i] = new Array;
+              }
+
+              for(var i = 0; i < departmentArrSz; i++){
+                $.ajax({
+                  type: 'POST',
+                  url: '/GetDepartmentFromDepartmentNum',
+                  data: {depNum:i},
+                  success: function(data){
+                              if(data != null){
+                              departmentArray[i] = data;
+                              console.log(data[1]);
+                              console.log("Department", departmentArray[i][1]);
+                              }
+                            },
+                  async: false
+                })
+              }
+              console.log("DEPARTMENT", departmentArray[1][1]);
+              $("#departmentSelect").append('<option>' + departmentArray[document.employerNewDepartment][1] + '</option>');
+              for (var i = 0; i < departmentArrSz; i++){
+                $("#departmentSelect").append('<option value = "' + departmentArray[i][0] + '">' + departmentArray[i][1] + '</option>');
+              }
+            }
+          })
+        }
+
+        function GetPosts(){
+          
+          var post;
+          $.post("/GetPostArraySize", function(data){
+            console.log(data.length);
+            if(data != null){
+              var postArrSz = data.length;
+
+              for(var i = 0; i < postArrSz; i++){
+                postArray[i] = new Array;
+              }
+
+              for(var i = 0; i < postArrSz; i++){
+                $.ajax({
+                  type: 'POST',
+                  url: '/GetPostFromPostNum',
+                  data: {postNum:i},
+                  success: function(data){
+                              if(data != null){
+                              postArray[i] = data;
+                              console.log(data[1]);
+                              console.log("Post", postArray[i][1]);
+                              }
+                  
+                            },
+                  async: false
+                })
+              }
+
+              console.log("POST", postArray[1][1]);
+              $("#postSelect").append('<option value>' + postArray[document.employerNewDepartment][1] + '</option>');
+              for (var i = 0; i < postArrSz; i++){
+                $("#postSelect").append('<option value = "' + postArray[i][0] + '">' + postArray[i][1] + '</option>');
+              }
             }
           })
         }
 
 
         function GetEmployerRank(obj){
-          employerNewRank = rankArray[obj.options[obj.selectedIndex].value][1];
+          document.employerNewRank = rankArray[obj.options[obj.selectedIndex].value][1];
+        }
+
+        function GetEmployerDepartment(obj){
+          document.employerNewDepartment = departmentArray[obj.options[obj.selectedIndex].value][0];
+        }
+
+        function GetEmployerPost(obj){
+          document.employerNewPost = postArray[obj.options[obj.selectedIndex].value][0];
         }
 
         function updateEmployer(){
-            $.post("/UpdateEmployerFromNum",{num:employerID, rank : employerNewRank}, function(data){
-                if(data==true)
-                  {
-                    alert("Сотрудник обновлен!!");
-                    window.location.replace("/website/Workflow/EmployerDashboard.html");
-                  }
-              });
+            var flagUpdateEmp;
+            var flagUpdateWorkplace;
+            $.ajax({
+              type: 'POST',
+              url: '/UpdateEmployerFromNum',
+              data: {num:document.employerNum, rank : document.employerNewRank},
+              success: function(data){
+                  if(data!=null)
+                      {
+                        flagUpdateEmp = data;
+                      }
+                  },
+              async: false
+            });
+
+            $.ajax({
+              type: 'POST',
+              url: '/UpdateEmployerWorkplaceFromNum',
+              data: {num:document.employerNum, post : document.employerNewPost, department: document.employerNewDepartment},
+              success: function(data){
+                  if(data!=null)
+                      {
+                        flagUpdateWorkplace = data;
+                      }
+                  },
+              async: false
+            });
+
+            if (flagUpdateEmp && flagUpdateWorkplace){
+              //alert("Сотрудник обновлен!!");
+              window.location.replace("/website/Workflow/EmployerDashboard.html");
+            }
+
         }
 
         $('.form-control').bind("keypress", function(){
@@ -103,21 +226,15 @@
                 <form method="post" class="form-group" action="/">
                   <select id="rankSelect" onchange="GetEmployerRank(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
 
-                    </select>
-                    <select class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
-                        <option >Отдел Режима</option>
-                        <option >Информационно-библиотченый отдел</option>
-                        <option >Финансовый отдел</option>
-                        <option >Отдел материально-технического обеспечения</option>
-                        <option >Кафедра 732 ИКСИ</option>
-                    </select>
-                    <select class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
-                        <option>Начальник отдела</option>
-                        <option>Зам. начальник отдела</option>
-                        <option>Консультант</option>
-                        <option>Слушатель</option>
-                        <option>Преподаватель</option>
-                    </select>
+                  </select>
+
+                  <select id="departmentSelect" onchange="GetEmployerDepartment(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+                       
+                  </select>
+
+                  <select id="postSelect" onchange="GetEmployerPost(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+
+                  </select>
                     
                 </form>
                 <button id="updateEmployerBtn" onclick="updateEmployer()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 9.666667%;" >Изменить данные</button>

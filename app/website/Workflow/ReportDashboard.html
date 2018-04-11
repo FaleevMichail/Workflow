@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Report | Dashboard</title>
+  <script
+  src="./lib/js/jquery.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+
+<body>
+  <h1 class="jumbotron" onclick="document.location='/'">Существующие рапорта</h1>
+  <br>
+  <div class="">
+    <ul>
+      <li class="row">
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Номер рапорта</label>  
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Подразделение</label>
+        <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Cтатус рапорта</lable>
+      </li>
+      <div id="raportList" >
+    </div>
+    
+    </ul>
+    
+  </div>
+  <br>
+  <div id="createDepartmentDiv" class="container-fluid jumbotron">
+      
+  </div>
+</br>
+<script type="text/javascript">
+
+    $('document').ready(function(){
+        IsAdmin();
+        GetEmployerReportSize();
+        GetEmployersReportFromNum();
+        GetEmployers();
+        GetDepartments();
+        refreshRaportdata();
+    });
+
+    function IsAdmin(){
+        $.ajax({
+            type: 'POST',
+            url: '/AsrtAdmin',
+            success: function(data){
+                if(data != null){
+                    document.adminFlag = data;
+                    if (data == true){
+                        console.log("YouAdmin");
+                        $('#Data').html("Данные сотрудников");
+                    }else{
+                        console.log("YouUser");
+                        $('#Data').html("Данные сотрудникa");
+                    }
+                }
+            },
+            async: false
+        })
+    }
+
+    function GetEmployerReportSize(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetEmployerReportSize',
+            success: function(data){
+                if(data != null){
+                    console.log('GetEmployerReportSize: ', data);
+                    document.reportSize = data.length;
+                }
+            },
+            async: false
+        })
+    }
+
+    var employerList = new Array;
+    var workplaceList = new Array;
+    function GetEmployers(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetEmployerArraySize',
+            success: function(data){
+                        console.log(data.length);
+                        if(data != null){
+                            document.employerArrSz = data.length;
+                        }
+                    },
+            async: false
+        })
+
+        for (var i = 0; i < document.employerArrSz; i++){
+            $.ajax({
+                type: 'POST',
+                url: '/GetEmployerFromNum',
+                data: {empNum:i},
+                success: function(data){
+                            employerList[i] = new Array;
+                            if(data != null){
+                                employerList[i] = data[0];
+                                workplaceList[i] = data[1];
+                                console.log(employerList[i]);                                
+                            }
+                        },
+                async: false
+            })
+        }
+        
+    }
+
+    var reportList = new Array;
+    function GetEmployersReportFromNum(){
+            for(var i = 0; i < document.reportSize; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetEmployersReportFromNum',
+                    data: {emplNum:i},
+                    success: function(data){
+                        reportList[i] = new Array;
+                        if(data != 0){
+                            reportList[i] = data;
+                            console.log(reportList[i]);
+                        }
+                    },
+                    async: false
+                });
+
+            }
+    }
+
+    var departmentList = new Array;
+    function GetDepartments(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetDepartmentArraySize',
+            success: function(data){
+                if(data != null){
+                    console.log('GetDepartmentArraySize: ', data);
+                    document.departmentSize = data.length;
+                }
+            },
+            async: false
+        })
+
+        for(var i = 0; i < document.departmentSize; i++){
+            $.ajax({
+                type: 'POST',
+                url: '/GetDepartmentFromDepartmentNum',
+                data: {depNum:i},
+                success: function(data){
+                    departmentList[i] = new Array;
+                    if(data != 0){
+                        departmentList[i] = data;
+                        console.log(departmentList[i]);
+                    }
+                },
+                async: false
+            });
+        }
+    }
+
+    function toggleStatus(empNum, realStatus){
+        $.ajax({
+                type: 'POST',
+                url: '/UpdateStatusReprot',
+                data: {empNum: empNum, newStatus : !realStatus},
+                success: function(data){
+                    if(data==true)
+                    {
+                        refreshRaportdata();
+                    }
+                },
+                async: false
+            });
+    }
+
+    function refreshRaportdata(){
+        $("#raportList").empty();
+        if (document.adminFlag == true){
+            //Выводим все рапорта
+            
+            for (var i = 0; i < reportList.length; i++){
+                if(reportList[i][2]){
+                    status = "Подтвержден";
+                    buttonClass = "btn-success";
+                    liClass = "bg-secondary"
+                }else {
+                    status = "Не подтвержден";
+                    buttonClass = "btn-danger";
+                    liClass = "";
+                }
+                $("#raportList").append('<li class="row">' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/ReportInfo.html?reportID=' + i + '">' + i + '</a>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][1] + '</div>' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[reportList[i][0]][0] + '">' + employerList[reportList[i][0]][2] + '</a>' +                              
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][3] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][4] + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentList[workplaceList[reportList[i][0]][1]] + '</div>' +
+                '<input type="button" onclick="toggleStatus(\''+ i +'\','+reportList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+                '</li>' +
+                '<br>');
+            }
+        }
+    }
+
+    setTimeout(function(){
+        refreshRaportdata();
+    }, 400)
+
+</script>
+</body>
+</html>

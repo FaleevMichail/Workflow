@@ -61,26 +61,26 @@ contract PostContract is AdminContract{
         return (ret_title, ret_status);
     }
 
-    function GetDepartmentArraySize() returns(uint[]){
+    function GetPostArraySize() returns(uint[]){
         uint[] res;
-        for (uint i = 0; i < departmentArray.length; i++){
+        for (uint i = 0; i < postArray.length; i++){
             res.push(1);
         }
         return(res);
     }
 
-    function GetDepartmentFromDepartmentNum(uint _num) returns(
+    function GetPostFromPostNum(uint _num) returns(
         uint num,
         string title,
         bool status){
             return (
-                departmentArray[_num].departmentId,
-                departmentArray[_num].departmentTitle,
-                departmentArray[_num].departmentStatus);
+                postArray[_num].postId,
+                postArray[_num].postTitle,
+                postArray[_num].postStatus);
     }
 
-    function UpdateStatusDepartment(uint _num, bool _newStatus) returns (bool updateStatus) {
-        departmentArray[_num].departmentStatus = _newStatus;
+    function UpdateStatusPost(uint _num, bool _newStatus) returns (bool updateStatus) {
+        postArray[_num].postStatus = _newStatus;
         return true;
     }
 }

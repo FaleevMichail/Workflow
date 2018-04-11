@@ -243,7 +243,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "295:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -430,7 +430,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "397:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -756,7 +756,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "677:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1084,7 +1084,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "295:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1271,7 +1271,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "397:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1597,7 +1597,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1426,
+                        "referencedDeclaration": 2720,
                         "src": "677:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1757,31 +1757,25 @@
     "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {
-    "1522083637789": {
+    "1523311874177": {
       "events": {},
       "links": {},
-      "address": "0x9492f28e06e2b49ec5a458c79ee7b027a5f02de8",
-      "transactionHash": "0xa29a4af97d0194b859960012de4dc1d9528a8ad56e3f65a27162cd825b898393"
+      "address": "0x0ffd439478b7731ff8d37a17f40638843493bb36",
+      "transactionHash": "0xa1417f4847d979c74f00b7f20df5416cd9d49abbb1511e23755b6505132970dd"
     },
-    "1522357562509": {
+    "1523394658745": {
       "events": {},
       "links": {},
-      "address": "0x1424880d82da4233eb27a25161001707ed974820",
-      "transactionHash": "0xb470524995ff2eeb2949ec29ee63ec7a02828457cfdedac9001c5300376b1409"
+      "address": "0x72b0ce096eb1ec87850158c6e0409059a48c0813",
+      "transactionHash": "0x65d681c58f312b273f4b6a510d67b4a44c332b7cc63ed7570a80f0aa81d01627"
     },
-    "1522375420463": {
+    "1523401277681": {
       "events": {},
       "links": {},
-      "address": "0x860ad50cd7d1ecf1a98d7f245d612b7c7f3a1377",
-      "transactionHash": "0xa72c77ebae045b4b19accc0c8e7927a0b9280abbc4b9c509ff3a0e997ee93836"
-    },
-    "1522762898604": {
-      "events": {},
-      "links": {},
-      "address": "0xec26d29c6e80f74d9110723691a0d2e4fe882c19",
+      "address": "0x7335780e584acd49dd01a716000c313d0fb78eb5",
       "transactionHash": "0x65d681c58f312b273f4b6a510d67b4a44c332b7cc63ed7570a80f0aa81d01627"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-03T13:44:23.199Z"
+  "updatedAt": "2018-04-10T23:01:35.940Z"
 }

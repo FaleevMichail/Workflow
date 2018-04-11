@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard | Employer</title>
+  <title>Post | Dashboard</title>
   <script
   src="./lib/js/jquery.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 
-  <script type="text/javascript" src="./lib/js/jquery.min.js"></script>
   <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 
 <body>
-  <h1 id="Data" class="jumbotron" onclick="document.location='/'">Данные должностей</h1>
+  <h1 class="jumbotron" onclick="document.location='/'">Данные должностей</h1>
   <br>
   <div class="">
     <ul>
@@ -22,61 +21,63 @@
         <label class="col-md-5 font-weight-bold">Имя</label>
         <lable class="col-md-5 font-weight-bold">Изменить статус</lable>
       </li>
-      <div id="departmentList" >
-      </div>
+      <div id="postList" >
+      
+    </div>
+    <button id="addPostBt" style="max-width: 23.667%;" class="btn btn-info col-md-5 " onclick="AddPost()" type="button">Добавить подразделение</button>
     </ul>
+    
   </div>
   <br>
-  <div id="employerButton" class="row justify-content-md-center">
-        <button id="addDepartment" style="max-width: 23.667%;" class="btn btn-success col-md-5 offset-md-1" onclick="addDepartment()" type="button">Добавить подразделение</button>
+  <div id="createPostDiv" class="container-fluid jumbotron">
+      
   </div>
-</ul> 
 </br>
 <script type="text/javascript">
 
 $('document').ready(function(){
-  refreshDepartmentdata();
+  refreshPostdata();
 });
 
-function refreshDepartmentdata(){
+function refreshPostdata(){
 
-  $("#departmentList").empty();
+  $("#postList").empty();
   var adminFlag;
-  var departmentList = new Array();
-  var departmentArrSz;
+  var postList = new Array();
+  var postArrSz;
 
   $.post("/AsrtAdmin", function(data){
     if(data != null){
       adminFlag = data;
       if (data == true){
         console.log("YouAdmin");
-        $('#Data').html("Данные должностей");
+        $('#Data').html("Данные подразделений");
       }else{
        console.log("YouUser");
-       $('#Data').html("Данные должностей");
+       $('#Data').html("Данные подразделений");
       }
     }
   });
 
-  $.post("/GetDepartmentArraySize", function(data){
+  $.post("/GetPostArraySize", function(data){
     console.log(data.length);
     if(data != null){
-      departmentArrSz = data.length;
+      postArrSz = data.length;
     }
   })
   
 
   setTimeout(function(){
     if(adminFlag){
-      console.log(departmentArrSz);
-      for (var i = 0; i < departmentArrSz; i++){
-        $.post("/GetDepartmentFromDepartmentNum", {depNum:i}, function(data){
+      console.log(postArrSz);
+      for (var i = 0; i < postArrSz; i++){
+        $.post("/GetPostFromPostNum", {postNum:i}, function(data){
           var status, buttonClass, liClass;
-          departmentList[i] = new Array();
+          postList[i] = new Array();
           if(data != null){
-            departmentList[i] = data;
-            console.log(departmentList[i]);
-            if(departmentList[i][2]){
+            postList[i] = data;
+            console.log(postList[i]);
+            if(postList[i][2]){
               status = "Отключить";
               buttonClass = "btn-danger col-md-5 font-weight-bold";
               liClass = "";
@@ -86,12 +87,11 @@ function refreshDepartmentdata(){
               liClass = "bg-secondary"
             }
 
-            $("#departmentList").append('<li class="row">' +
-                '<a class="col-md-5 font-weight-bold" href="/DepartmentsEmployers.html?departmentID=' + departmentList[i][0] + '">' + departmentList[i][1] + '</a>' +                              
-                '<input  type="button"  onclick="toggleStatus(\''+ departmentList[i][0] +'\','+departmentList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+            $("#postList").append('<li class="row">' +
+                '<a class="col-md-5 font-weight-bold" href="/PostsEmployers.html?postID=' + postList[i][0] + '">' + postList[i][1] + '</a>' +                              
+                '<input  type="button" style="max-width: 15.000%;" onclick="toggleStatus(\''+ postList[i][0] +'\',\'' + postList[i][1] +'\', ' +postList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
                 '</li>' +
                 '<br>');
-                
           }
         })
       }
@@ -99,18 +99,53 @@ function refreshDepartmentdata(){
   }, 400)
 }
 
-function toggleStatus(depNum, realStatus){
+function toggleStatus(postNum, postName, realStatus){
 
   console.log("Tell me");
-  $.post("/UpdateStatusDepartment", {depNum: depNum, newStatus : !realStatus} , function(data){
+  $.post("/UpdateStatusPost", {postNum: postNum, newStatus : !realStatus} , function(data){
     if(data===true)
     {
-      alert("status set!");
+      alert("Статус должности: "+ postName+ " обновлен!");
     }
     });
-    refreshDepartmentdata();
+    $("#createPostForm").css("display", "none");    
+    refreshPostdata();
 }
 
+var postTitle;
+function AddPost(){
+
+  $("#createPostDiv").append(
+    '<form id="createPostForm" method="post" class="form-group" action="/">' +
+    '<input name="postTitle" type="text" class="form-control col-sm-5" id="postTitle" placeholder="Название подразделения"><br>' +
+    '<button id="addPostBtn" disabled type="button" onclick="CreatePost()" class="btn btn-success" >Добавить данные</button>' +
+    '</form>'
+  )
+  
+  $('.form-control').bind("keypress", function(){
+    var postTitle  = $('#postTitle').val();
+
+    if(postTitle == "" ){
+      $('#addPostBtn').attr("disabled","");
+    }else {
+      $('#addPostBtn').removeAttr("disabled");
+    }
+  });
+};
+
+function CreatePost(){
+    $("#addPostBt").css("display", "none");
+    postTitle = $('#postTitle').val();
+    $.post("/CreatePost", {postTitle:postTitle}, function(data){
+      if(data == true){
+          //alert("Подразделение добавлено");
+          $("#createPostForm").css("display", "none");
+          refreshPostdata();
+      }
+  })
+    
+  
+}
 </script>
 </body>
 </html>

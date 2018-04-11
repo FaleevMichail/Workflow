@@ -24,7 +24,8 @@ contract DepartmentContract is AdminContract{
         departmentArray.push(DepartmentStruct(2, "Финансовый отдел", true));
         departmentArray.push(DepartmentStruct(3, "Отдел материально-технического обеспечения", true));
         departmentArray.push(DepartmentStruct(4, "Кафедра 732 ИКСИ", true));
-        uint departmentID = 5;
+        departmentArray.push(DepartmentStruct(5, "Хирургический отдел медицинской службы", true));
+        departmentID = 6;
     }
 
     function CreateDepartment(string _title) returns (bool){

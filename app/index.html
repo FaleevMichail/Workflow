@@ -30,15 +30,15 @@
         <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудников</a>
         <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/DepartmentDashboard.html" type="button">Настройка подразделений</a>
         <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/PostDashboard.html" type="button">Настройка должностей</a>
-        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/trash/h.html" type="button">Управление рапортами</a>
+        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/ReportDashboard.html" type="button">Управление рапортами</a>
       </div>
     </div>
   </div>
 
   <script type="text/javascript">
 
-    var adminFlag = true;
-    var isAdminFlag = false;
+    var adminFlag;
+    var isAdminFlag;
 
   function startapp(web3){
     $.get("/initializeWeb3",{web3: web3}, function(data){
@@ -67,53 +67,47 @@
   };
 
   $('document').ready(function(){
-    isAdmin();
-    if(adminFlag){
-      console.log("Admin live");
-      AsrtAdmin();
-    }else{
-      SetAdmin();
-    }
-    if(isAdminFlag){
-      console.log("YouAdmin");
-      document.getElementById('admin').style.display = 'block';
-      document.getElementById('user').style.display = 'none';
-    }
-    });
+    $("#user").css("display", "block");
+    $("#admin").css("display", "none");
+    IsAdmin();
+  });
 
-  function isAdmin(){
-    document.getElementById('user').style.display = 'block';
-    document.getElementById('admin').style.display = 'none';
-    $.post("/IsAdmin", function(data){
+  function IsAdmin(){
+      $.post("/IsAdmin", function(data){
       if(data != null){
+        console.log("function IsAdmin set adminFlag: ", data);
         adminFlag = data;
-      }
-    });
-    }
-
-    function AsrtAdmin(){
-      $.post("/AsrtAdmin", function(data){
+        if(adminFlag){
+          console.log("Admin live");
+          $.post("/AsrtAdmin", function(data){
             if(data != null){
+              console.log("function AsrtAdmin set isAdminFlag: ", data);
               isAdminFlag = data;
-              if (data == true){
+              if(isAdminFlag){
                 console.log("YouAdmin");
                 document.getElementById('admin').style.display = 'block';
                 document.getElementById('user').style.display = 'none';
               }else{
                 console.log("YouUser");
               }
-              
             }
           })
-    }
-    function SetAdmin(){
-      $.post("/SetAdmin", function(data){
+        }else{
+          console.log("Setting Admin");
+          $.post("/SetAdmin", function(data){
             if(data != null){
-              isAdminFlag = true;
+              if(data == true){
+                console.log("Admin is set");
+                AsrtAdmin();
+              }else{
+                console.log("Admin is not set");
+              }
             }
           })
     }
-  
+      }
+    });
+    }
 
 </script>
 </body>

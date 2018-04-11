@@ -107,6 +107,16 @@ contract EmployerContract{
         return true;
     }
 
+    function UpdateEmployerWorkplaceFromNum(
+        uint num,
+        uint newPost,
+        uint newDepartment
+        ) returns(bool updateEmployerWorkplace){
+            employerArray[num].employerPostID = newPost;
+            employerArray[num].employerDepartmentID = newDepartment;
+            return true;
+        }
+
     function UpdateStatusEmployer(uint _employerNum, bool _newStatus) returns (bool updateStatus) {
         employerArray[_employerNum].employerStatus = _newStatus;
         return true;
@@ -221,4 +231,28 @@ contract EmployerContract{
         num = employerAddr_employerNum[msg.sender];
         return(num);
         }
+
+    function GetEmployersFromDepartmentId (uint depId) returns (uint[]){
+        uint[] result;
+        for (uint i =0; i < employerArray.length; i++){
+            if(employerArray[i].employerDepartmentID == depId){
+                result.push(1);
+            }else{
+                result.push(0);
+            }
+        }
+        return(result);
+    }
+
+    function GetEmployersFromPostId (uint postId) returns (uint[]){
+        uint[] result;
+        for (uint i =0; i < employerArray.length; i++){
+            if(employerArray[i].employerPostID == postId){
+                result.push(1);
+            }else{
+                result.push(0);
+            }
+        }
+        return(result);
+    }
 }

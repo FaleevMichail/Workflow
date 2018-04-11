@@ -32,6 +32,22 @@ router.get("/DepartmentDashboard.html", function(req,res){
   res.sendFile(path + "/website/Workflow/DepartmentDashboard.html");
 });
 
+router.get("/DepartmentsEmployers.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/DepartmentsEmployers.html");
+});
+
+router.get("/PostDashboard.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/PostDashboard.html");
+});
+
+router.get("/PostsEmployers.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/PostsEmployers.html");
+});
+
+router.get("/ReportDashboard.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportDashboard.html");
+});
+
 app.use(express.static('.'));
 app.use(express.static('app'));
 app.use(express.static('lib'));
@@ -53,6 +69,21 @@ app.post("/ParseMyUrlEmpId", function(req,res){
   res.send(query.employerID);
 })
 
+app.post("/ParseMyUrlDepId", function(req,res){
+  console.log(req.body.url);
+  var url_parts = url.parse(req.body.url, true);
+  var query = url_parts.query;
+  console.log(query.departmentID);
+  res.send(query.departmentID);
+})
+
+app.post("/ParseMyUrlPostId", function(req,res){
+  console.log(req.body.url);
+  var url_parts = url.parse(req.body.url, true);
+  var query = url_parts.query;
+  console.log(query.postID);
+  res.send(query.postID);
+})
 /*app.post("/website/employer/addnewjob.html", function(req,res){
   console.log(req.body);
 });*/
@@ -99,6 +130,11 @@ var EmployerContractArtifact = JSON.parse(contentsEmployer);
 const EmployerContract = TruffleContract(EmployerContractArtifact);
 EmployerContract.setProvider(web3.currentProvider);
 
+var fileReport = 'build/contracts/ReportContract.json';
+var contentsReport = fs.readFileSync("build/contracts/ReportContract.json");
+var ReportContractArtifact = JSON.parse(contentsReport);
+const ReportContract = TruffleContract(ReportContractArtifact);
+ReportContract.setProvider(web3.currentProvider);
 
 app.post('/IsAdmin', function(req, res){
   web3.eth.getAccounts(function(error, accounts){
@@ -199,6 +235,25 @@ app.post('/UpdateEmployerFromNum', function(req, res){
   });
 })
 
+app.post('/UpdateEmployerWorkplaceFromNum', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    }
+    var account = accounts[0];
+    EmployerContract.deployed().then(function(instance){
+      return instance.UpdateEmployerWorkplaceFromNum(req.body.num, req.body.post, req.body.department, {from: account, gas:190000});
+    }).then(function(result){
+      if(result.receipt.status == 1){
+        res.send(true);
+      }
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    });
+  });
+})
+
 app.post('/GetEmployerArraySize', function(req, res){
   web3.eth.getAccounts(function(error, accounts){
     if (error){
@@ -235,6 +290,7 @@ app.post('/GetEmployerFromAddr', function(req, res){
 });
 
 app.post('/GetEmployerFromNum', function(req, res){
+  var employerData = new Array;
   console.log("NUMBER ", req.body.empNum);
   web3.eth.getAccounts(function(error, accounts){
     if (error){
@@ -244,14 +300,58 @@ app.post('/GetEmployerFromNum', function(req, res){
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployerFromEmployerNum.call(req.body.empNum, {from: account});
     }).then(function(result){
+      employerData.push(result);
       console.log(result);
-      res.send(result)
+    }).catch(function(err){
+      console.log(err.message);
+      console.log("DEBIL");
+    });
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployerWorkplaceFromNum.call(req.body.empNum, {from: account});
+    }).then(function(result){
+      employerData.push(result);
+      console.log(result);
+      res.send(employerData);
     }).catch(function(err){
       console.log(err.message);
       console.log("DEBIL");
     });
   });
 });
+
+app.post('/GetEmployersFromDepartmentId', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    }
+    var account = accounts[0];
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployersFromDepartmentId.call(req.body.department);
+    }).then(function(result){
+          console.log(result);
+          res.send(result);
+        }).catch(function(err){
+          console.log("GetEmployersFromDepartmentId: ", err.message);
+        });
+  });
+})
+
+app.post('/GetEmployersFromPostId', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    }
+    var account = accounts[0];
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployersFromPostId.call(req.body.post);
+    }).then(function(result){
+          console.log(result);
+          res.send(result);
+        }).catch(function(err){
+          console.log("GetEmployersFromPostId: ", err.message);
+        });
+  });
+})
 
 app.post('/GetRanks', function(req, res){
   web3.eth.getAccounts(function(error, accounts) {
@@ -344,22 +444,51 @@ app.post('/GetDepartmentFromDepartmentNum', function(req, res){
     DepartmentContract.deployed().then(function(instance){
       return instance.GetDepartmentFromDepartmentNum.call(req.body.depNum, {from: account});
     }).then(function(result){
-      console.log(result);
+      console.log("GetEmployersFromDepartmentId: ", result);
       res.send(result)
     }).catch(function(err){
-      console.log(err.message);
+      console.log("GetDepartmentFromDepartmentNum: ", err.message);
       console.log("DEBIL");
     });
   });
 });
 
-app.post("/ParseMyUrlDepId", function(req,res){
-  console.log(req.body.url);
-  var url_parts = url.parse(req.body.url, true);
-  var query = url_parts.query;
-  console.log(query.departmentID);
-  res.send(query.departmentID);
-})
+app.post('/GetPostArraySize', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    } 
+    var account = accounts[0];
+    PostContract.deployed().then(function(instance){
+      return instance.GetPostArraySize.call({from: account});
+    }).then(function(result){
+      console.log("GetPostArraySize: ", result);
+      res.send(result)
+    }).catch(function(err){
+      console.log(err.message);
+    });
+  });
+});
+
+app.post('/GetPostFromPostNum', function(req, res){
+  console.log("NUMBER ", req.body.postNum);
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    }
+    var account = accounts[0];
+    PostContract.deployed().then(function(instance){
+      return instance.GetPostFromPostNum.call(req.body.postNum, {from: account});
+    }).then(function(result){
+      console.log(result);
+      res.send(result)
+    }).catch(function(err){
+      console.log("GetPostFromPostNum: ", err.message);
+    });
+  });
+});
+
+
 
 app.post('/UpdateStatusDepartment',function(req,res){
   console.log("Update for ", req.body);
@@ -387,15 +516,20 @@ app.post('/UpdateStatusDepartment',function(req,res){
   });
 });
 
-app.post('/CreateDepartment', function(req, res){
-  console.log("Create department: ", req.body);
-  web3.eth.getAccounts(function(error, accounts){
+app.post('/UpdateStatusPost',function(req,res){
+  console.log("Update for ", req.body);
+  if(req.body.newStatus == 'true'){
+    newStatus=true;
+  }else{
+    newStatus=false;
+  }
+  web3.eth.getAccounts(function(error, accounts) {
     if (error) {
       console.log(error);
     }
     var account = accounts[0];
-    DepartmentContract.deployed().then(function(instance) {
-      return instance.CreateDepartment(req.body, {from: account, gas:500000});
+    PostContract.deployed().then(function(instance) {
+      return instance.UpdateStatusPost(req.body.postNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
       console.log(result.receipt);
       if(result.receipt.status ==1){
@@ -408,3 +542,106 @@ app.post('/CreateDepartment', function(req, res){
   });
 });
 
+app.post('/CreateDepartment', function(req, res){
+  console.log("Create department: ", req.body.depTitle);
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    DepartmentContract.deployed().then(function(instance) {
+      return instance.CreateDepartment(req.body.depTitle, {from: account, gas:3000000});
+    }).then(function(result) {
+      console.log(result.receipt);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err) {
+      console.log(err.message);
+      res.send(false);
+    });
+  });
+});
+
+app.post('/CreatePost', function(req, res){
+  console.log("Create post: ", req.body.postTitle);
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    PostContract.deployed().then(function(instance) {
+      return instance.CreatePost(req.body.postTitle, {from: account, gas:3000000});
+    }).then(function(result) {
+      console.log(result.receipt);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err) {
+      console.log(err.message);
+      res.send(false);
+    });
+  });
+});
+
+app.post('/GetEmployerReportSize', function(req, res){
+  console.log('GetEmployerReportSize');
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetEmployerReportSize.call();
+    }).then(function(result){
+      console.log(result);
+      res.send(result);
+    }).catch(function(err){
+      console.log("GetPostFromPostNum: ", err.message);
+    });
+  });
+});
+
+app.post('/GetEmployersReportFromNum', function(req, res){
+  console.log('GetEmployerReportSize', req.body.emplNum);
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetEmployersReportFromNum.call(req.body.emplNum);
+    }).then(function(result){
+      console.log(result);
+      res.send(result);
+    }).catch(function(err){
+      console.log("GetPostFromPostNum: ", err.message);
+    });
+  })
+})
+
+app.post('/UpdateStatusReprot',function(req,res){
+  console.log("Update for ", req.body);
+  if(req.body.newStatus == 'true'){
+    newStatus=true;
+  }else{
+    newStatus=false;
+  }
+  web3.eth.getAccounts(function(error, accounts) {
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance) {
+      return instance.UpdateStatusReprot(req.body.empNum, newStatus, {from: account, gas:50000});
+    }).then(function(result) {
+      console.log(result.receipt.status);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err) {
+      console.log(err.message);
+      res.send(false);
+    });
+  });
+});

@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <html>
   <head>
-    <title>Department | Employers</title>
+    <title>Post | Employers</title>
     <script
   			  src="./lib/js/jquery.min.js"
   			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -14,40 +14,40 @@
     
     <script>
 
-        var departmentList = new Array();
+        var postList = new Array();
         $(document).ready(function(){
           var url = window.location.href;
-          $.post("/ParseMyUrlDepId",{url: url}, function(data){
+          $.post("/ParseMyUrlPostId",{url: url}, function(data){
             if(data!=null)
             {
-              document.departmentID = data;
-              GetDepartmentFromDepartmentNum();
-              GetEmployersFromDepartmentId();
+              document.postID = data;
+              GetPostFromPostNum();
+              GetEmployersFromPostId();
             }
           });
         });
 
-        function GetDepartmentFromDepartmentNum(){
-            var departmentList = new Array();
-            $.post("/GetDepartmentFromDepartmentNum", {depNum:document.departmentID}, function(data){
+        function GetPostFromPostNum(){
+            var postList = new Array();
+            $.post("/GetPostFromPostNum", {postNum:document.postID}, function(data){
                 if(data != null){
-                    departmentList = data;
-                    console.log(departmentList);
-                    var title = departmentList[1];
-                    $('#departmentIDHead').html("Сотрудники подразделения: <b>" + title + "</b>");
+                    postList = data;
+                    console.log(postList);
+                    var title = postList[1];
+                    $('#postIDHead').html("Сотрудники, имеющие должность: <b>" + title + "</b>");
                 }
             })
         }
 
-        function GetEmployersFromDepartmentId(){
+        function GetEmployersFromPostId(){
           var employerList = new Array;
           var employerWorkList = new Array;
-            $.post("/GetEmployersFromDepartmentId", {department: document.departmentID}, function(data){
+            $.post("/GetEmployersFromPostId", {post: document.postID}, function(data){
               if(data != null){
-                employerFromDepartmentList = data;
-                console.log(employerFromDepartmentList);
-                for (var i = 0; i < employerFromDepartmentList.length; i++){
-                  if(employerFromDepartmentList[i] == 1){
+                employerFromPostList = data;
+                console.log(employerFromPostList);
+                for (var i = 0; i < employerFromPostList.length; i++){
+                  if(employerFromPostList[i] == 1){
                     $.post("/GetEmployerFromNum", {empNum:i}, function(data){
                       employerList[i] = new Array;
                       employerWorkList[i] = new Array;
@@ -78,7 +78,7 @@
     </style>
   </head>
     <body>
-        <h1 class="jumbotron" id="departmentIDHead" onclick="document.location='/'" >Kek</h1>
+        <h1 class="jumbotron" id="postIDHead" onclick="document.location='/'" >Kek</h1>
         <br>
         <ul>
                 <li class="row">

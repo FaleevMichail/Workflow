@@ -89,10 +89,9 @@ function refreshDepartmentdata(){
 
             $("#departmentList").append('<li class="row">' +
                 '<a class="col-md-5 font-weight-bold" href="/DepartmentsEmployers.html?departmentID=' + departmentList[i][0] + '">' + departmentList[i][1] + '</a>' +                              
-                '<input  type="button"  onclick="toggleStatus(\''+ departmentList[i][0] +'\','+departmentList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+                '<input  type="button" style="max-width: 15.000%;" onclick="toggleStatus(\''+ departmentList[i][0] +'\',\'' + departmentList[i][1] +'\', ' +departmentList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
                 '</li>' +
                 '<br>');
-                
           }
         })
       }
@@ -100,15 +99,16 @@ function refreshDepartmentdata(){
   }, 400)
 }
 
-function toggleStatus(depNum, realStatus){
+function toggleStatus(depNum, depName, realStatus){
 
   console.log("Tell me");
   $.post("/UpdateStatusDepartment", {depNum: depNum, newStatus : !realStatus} , function(data){
     if(data===true)
     {
-      alert("status set!");
+      alert("Статус подразделения: "+ depName+ " обновлен!");
     }
     });
+    $("#createDepartmentForm").css("display", "none");    
     refreshDepartmentdata();
 }
 
@@ -116,7 +116,7 @@ var depTitle;
 function AddDepartment(){
 
   $("#createDepartmentDiv").append(
-    '<form method="post" class="form-group" action="/">' +
+    '<form id="createDepartmentForm" method="post" class="form-group" action="/">' +
     '<input name="departTitle" type="text" class="form-control col-sm-5" id="depTitle" placeholder="Название подразделения"><br>' +
     '<button id="addDepartmentBtn" disabled type="button" onclick="CreateDepartment()" class="btn btn-success" >Добавить данные</button>' +
     '</form>'
@@ -139,9 +139,10 @@ function CreateDepartment(){
     $.post("/CreateDepartment", {depTitle:depTitle}, function(data){
       if(data == true){
           alert("Подразделение добавлено");
-          refreshDepartmentdata();
       }
   })
+    $("#createDepartmentForm").css("display", "none");
+    refreshDepartmentdata();
   
 }
 </script>
