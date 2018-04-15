@@ -48,6 +48,27 @@ router.get("/ReportDashboard.html", function(req,res){
   res.sendFile(path + "/website/Workflow/ReportDashboard.html");
 });
 
+router.get("/ReportsInfo.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportsInfo.html");
+});
+
+router.get("/ReportsForEmployerId.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportsForEmployerId.html");
+});
+
+router.get("/ReportFromEmployer.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportFromEmployer.html");
+});
+
+router.get("/EmployerData.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/EmployerData.html");
+});
+
+router.get("/ReportCreate.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportCreate.html");
+});
+
+
 app.use(express.static('.'));
 app.use(express.static('app'));
 app.use(express.static('lib'));
@@ -84,6 +105,16 @@ app.post("/ParseMyUrlPostId", function(req,res){
   console.log(query.postID);
   res.send(query.postID);
 })
+
+app.post("/ParseMyUrlRepId", function(req,res){
+  console.log(req.body.url);
+  var url_parts = url.parse(req.body.url, true);
+  var query = url_parts.query;
+  console.log(query.repID);
+  res.send(query.repID);
+})
+
+
 /*app.post("/website/employer/addnewjob.html", function(req,res){
   console.log(req.body);
 });*/
@@ -289,6 +320,23 @@ app.post('/GetEmployerFromAddr', function(req, res){
   });
 });
 
+app.post('/GetEmployerNumFromEmployerAddr', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployerNumFromEmployerAddr.call();
+    }).then(function(result){
+      console.log("GetEmployerNumFromEmployerAddr", result);
+      res.send(result);
+    }).catch(function(err){
+      console.log(err.message);
+    })
+  })
+})
+
 app.post('/GetEmployerFromNum', function(req, res){
   var employerData = new Array;
   console.log("NUMBER ", req.body.empNum);
@@ -488,8 +536,6 @@ app.post('/GetPostFromPostNum', function(req, res){
   });
 });
 
-
-
 app.post('/UpdateStatusDepartment',function(req,res){
   console.log("Update for ", req.body);
   if(req.body.newStatus == 'true'){
@@ -597,13 +643,13 @@ app.post('/GetEmployerReportSize', function(req, res){
       console.log(result);
       res.send(result);
     }).catch(function(err){
-      console.log("GetPostFromPostNum: ", err.message);
+      console.log("GetEmployerReportSize: ", err.message);
     });
   });
 });
 
 app.post('/GetEmployersReportFromNum', function(req, res){
-  console.log('GetEmployerReportSize', req.body.emplNum);
+  console.log('GetEmployersReportFromNum', req.body.emplNum);
   web3.eth.getAccounts(function(error, accounts){
     if (error) {
       console.log(error);
@@ -615,7 +661,24 @@ app.post('/GetEmployersReportFromNum', function(req, res){
       console.log(result);
       res.send(result);
     }).catch(function(err){
-      console.log("GetPostFromPostNum: ", err.message);
+      console.log("GetEmployersReportFromNum: ", err.message);
+    });
+  })
+})
+
+app.post('/GetEmployersReportListFromNum', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetEmployersReportListFromNum.call(req.body.emplNum);
+    }).then(function(result){
+      console.log(result);
+      res.send(result);
+    }).catch(function(err){
+      console.log("GetEmployersReportListFromNum: ", err.message);
     });
   })
 })
@@ -635,7 +698,7 @@ app.post('/UpdateStatusReprot',function(req,res){
     ReportContract.deployed().then(function(instance) {
       return instance.UpdateStatusReprot(req.body.empNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
-      console.log(result.receipt.status);
+      console.log(result.receipt);
       if(result.receipt.status ==1){
         res.send(true);
       }
@@ -645,3 +708,78 @@ app.post('/UpdateStatusReprot',function(req,res){
     });
   });
 });
+
+app.post('/GetTemplateReportArraySize', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetTemplateReportArraySize.call();
+    }).then(function(result){
+      console.log("GetTemplateReportArraySize ", result);
+      res.send(result);
+    }).catch(function(err){
+      console.log(err.message);
+    })
+  })
+})
+
+app.post('/GetTemplateReportFromNum', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetTemplateReportFromNum.call(req.body.tempRep);
+    }).then(function(result){
+      console.log("GetTemplateReportFromNum ", result);
+      res.send(result);
+    }).catch(function(err){
+      console.log(err.message);
+    })
+  })
+})
+
+app.post('/CreateReport', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.CreateReport(req.body.tempRepNum, req.body.empNum, {from:account, gas:1000000});
+    }).then(function(result){
+      console.log("GetTemplateReportFromNum ", result);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    })
+  })
+})
+
+app.post('/CreateTemplateReport', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    console.log("depArray ", req.body.depArray)
+    ReportContract.deployed().then(function(instance){
+      return instance.CreateTemplateReport(req.body.title, req.body.depArray, {from:account, gas:500000});
+    }).then(function(result){
+      console.log("CreateTemplateReport ", result.receipt.status);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    })
+  })
+})

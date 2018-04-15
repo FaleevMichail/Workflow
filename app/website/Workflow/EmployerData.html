@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employer | Dashboard</title>
+  <script
+  src="./lib/js/jquery.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  
+  <script type="text/javascript" src="/lib/js/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+
+<body>
+    <h1 id="Data" class="jumbotron" onclick="document.location='/'">Данные сотрудника</h1>
+    <br>
+    <ul>
+      <li class="row">
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Должность</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Подразделение</label>
+        <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Статус</lable>
+      </li>
+      <div id="employerList" >
+      </div>
+    </ul>
+    <br>
+    <div id="employerButton" >
+        <!--<button id="addData" disabled style="max-width: 23.667%;" class="btn btn-info col-md-5" href="AddEmployer.html" type="button">Добавить данные сотрудника</button>
+        <button id="upgradeData" style="max-width: 23.667%;" class="btn btn-info col-md-5 offset-md-1" href="UpdateEmployer.html" type="button">Изменить данные сотрудника</button>-->
+    </div>
+    </br>
+
+<script>
+    $('document').ready(function(){
+        GetEmployerNumFromEmployerAddr();
+    });
+
+    function GetEmployerNumFromEmployerAddr(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetEmployerNumFromEmployerAddr',
+            success: function(data){
+                if(data != null){
+                    document.employerNum = data[0];
+                    GetEmployersData();
+                    GetDepartmentFromDepartmentNum();
+                    GetPostFromPostNum();
+                    ViewData();
+                }else{
+                    $("#employerButton").append('<li class="row">' +
+                    '<a class="btn btn-info col-md-5 offset-md-1 " style="max-width: 23.667%;" href="/AddEmployer.html">' + "Добавить данные сотрудника" + '</a>'
+                    )
+                }
+            },
+            async: false
+        })
+    }
+
+    var employer = new Array;
+    var workplaceList = new Array;
+    function GetEmployersData(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetEmployerFromNum',
+            data: {empNum:document.employerNum},
+            success: function(data){
+                        if(data != null){
+                            employer = data[0];
+                            workplaceList = data[1];
+                            console.log(employer);                                
+                        }
+                    },
+            async: false
+        })
+    }
+
+    var employerDepartment = new Array;
+    function GetDepartmentFromDepartmentNum(){
+        var departmentId = workplaceList[1];
+        $.ajax({
+            type: 'POST',
+            url: '/GetDepartmentFromDepartmentNum',
+            data: {depNum:workplaceList[1]},
+            success: function(data){
+                if (data != 0){
+                    employerDepartment = data;
+                }
+            }, 
+            async:false
+        })
+    }
+
+    var employerPost = new Array;
+    function GetPostFromPostNum(){
+        var postId = workplaceList[0];
+        $.ajax({
+            type: 'POST',
+            url: '/GetPostFromPostNum',
+            data: {postNum:workplaceList[0]},
+            success: function(data){
+                if (data != 0){
+                    employerPost = data;
+                }
+            },
+            async:false
+        })
+    }
+
+    function ViewData(){
+        if(employer[5]){
+              status = "Активный";
+              buttonClass = "btn-success";
+              liClass = "";
+        }else {
+              status = "Неактивный";
+              buttonClass = "btn-danger";
+              liClass = "bg-secondary"
+        }
+
+        $("#employerList").append('<li class="row">' +
+            //'<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employer[0] + '">' + employer[2] + '</a>' +                              
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employer[2] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employer[1] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employer[3] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employer[4] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employerPost[1] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employerDepartment[1] + '</div>' +
+            '<input type="button" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+            '</li>' +
+            '<br>');
+        $("#employerButton").append('<li class="row">' +
+            '<a class="btn btn-info col-md-5 offset-md-1 " style="max-width: 23.667%;" href="/UpdateEmployer.html?employerID=' + employer[0] + '">' + "Изменить данные сотрудника" + '</a>'
+        )
+    }
+
+function toggleStatus(empNum, realStatus){
+  console.log("Tell me");
+  $.post("/UpdateStatusEmployer", {empNum: empNum, newStatus : !realStatus} , function(data){
+    if(data===true)
+    {
+      refreshEmployerdata();
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>

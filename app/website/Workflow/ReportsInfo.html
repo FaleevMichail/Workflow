@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Report | Info</title>
+    <script
+      src="/lib/js/jquery.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    
+    <body>
+        <h1 class="jumbotron" id="reportIDHead" onclick="document.location='/'" >Kek</h1>
+        <div class="container-fluid jumbotron">
+            <ul>
+                <li class="row">
+                    <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Время и дата создания</label>  
+                    <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+                    <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
+                    <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
+                    <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
+                    <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Cтатус рапорта</lable>
+                </li>
+                <div id="infoField" >
+                </div>
+            </ul>
+        </div>
+        
+        <div class="">
+        
+            <ul>
+                <li class="row">
+                    <label class="col-md-2 font-weight-bold">Подтверждающий отдел</label>  
+                    <label class="col-md-2 font-weight-bold">Статус подтверждения</label>
+                </li>
+                <div id="approveList" >
+                </div>
+            </ul>
+
+        </div>
+            
+    </body>
+
+    <script>
+        $(document).ready(function(){
+            var url = window.location.href;
+            $.post("/ParseMyUrlRepId",{url: url}, function(data){
+                if(data!=null){
+                    document.reportNum = data;
+                    GetEmployersReportFromNum();
+                    $('#reportIDHead').html("Информация о рапорте " + " №"+ document.reportNum + ": " + "<b>" + reportList[1] + "</b>");
+                    GetEmployers();
+                    GetDepartments();
+                    refreshRaportdata();
+                }
+            });
+
+        });
+
+        var reportList = new Array;
+        function GetEmployersReportFromNum(){
+            $.ajax({
+                type: 'POST',
+                url: '/GetEmployersReportFromNum',
+                data: {emplNum:document.reportNum},
+                success: function(data){
+                    if(data != 0){
+                        reportList = data;
+                        console.log(reportList);
+                    }
+                },
+                async: false
+            });
+        }
+
+        var employerList = new Array;
+        var workplaceList = new Array;
+        function GetEmployers(){
+            $.ajax({
+                type: 'POST',
+                url: '/GetEmployerFromNum',
+                data: {empNum:reportList[0]},
+                success: function(data){
+                            if(data != null){
+                                employerList = data[0];
+                                workplaceList = data[1];
+                                console.log(employerList);                                
+                            }
+                        },
+                async: false
+            })
+        }
+
+        var departmentList = new Array;
+        function GetDepartments(){
+            $.ajax({
+                type: 'POST',
+                url: '/GetDepartmentArraySize',
+                success: function(data){
+                    if(data != null){
+                        console.log('GetDepartmentArraySize: ', data);
+                        document.departmentSize = data.length;
+                    }
+                },
+                async: false
+            })
+
+            for(var i = 0; i < document.departmentSize; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetDepartmentFromDepartmentNum',
+                    data: {depNum:i},
+                    success: function(data){
+                        departmentList[i] = new Array;
+                        if(data != 0){
+                            departmentList[i] = data;
+                            console.log(departmentList[i]);
+                        }
+                    },
+                    async: false
+                });
+            }
+        }
+
+        function GetDate(timestamp){
+            date = new Date(timestamp*1000);
+            return (('0' + date.getDate()).slice(-2) + 
+                '-' + ('0' + date.getMonth()).slice(-2)+
+                '-' + date.getFullYear() +
+                ' ' + ('0' + date.getHours()).slice(-2)+
+                ':' + ('0' + date.getMinutes()).slice(-2)+
+                ':' + ('0' + date.getSeconds()).slice(-2)
+            )
+        }
+
+        function refreshRaportdata(){
+            $("#raportList").empty();
+            $("#approveList").empty();
+            if(reportList[2]){
+                statusReport = "Подтвержден";
+            }else{
+                statusReport = "Не подтвержден";
+            }
+            $("#infoField").append('<li class="row">' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + GetDate(reportList[6]) + '</div>' +
+            '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[0] + '">' + employerList[2] + '</a>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[1] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[3] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[4] + '</div>' +
+            '<div class="col-md-2" style="max-width: 13.666667%;">' + statusReport+ '</div>' +
+            '</li>' 
+            );
+            for (var i = 0; i < reportList[3].length; i++){
+                if(reportList[5][i] == 1){
+                    status = "Подтвержден";
+                    buttonClass = "btn-success";
+                    liClass = "bg-secondary"
+                }else { if(reportList[5][i] == 0){
+                            status = "Не подтвержден";
+                            buttonClass = "btn-danger";
+                            liClass = "";
+                        }else{
+                            status = "В процессе подтверждения";
+                            buttonClass = "btn-info";
+                            liClass = "";
+                    }
+                }
+                $("#approveList").append('<li class="row">'+
+                    '<div class="col-md-2 font-weight-bold" >'+ departmentList[[reportList[3][i]]][1] + '</div>'+
+                    '<input class="col-md-2 font-weight-bold '+ buttonClass + ' statusButton" value="'+ status +'"/>'+
+                    '</li>'+
+                    '<br    >'
+                    );
+            }
+        }
+
+        
+    </script>
+
+</head>
+</html>

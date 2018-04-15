@@ -17,8 +17,8 @@
   <br>
     <ul>
       <li class="row">
-        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Должность</label>
@@ -33,8 +33,6 @@
         <!--<button id="addData" disabled style="max-width: 23.667%;" class="btn btn-info col-md-5" href="AddEmployer.html" type="button">Добавить данные сотрудника</button>
         <button id="upgradeData" style="max-width: 23.667%;" class="btn btn-info col-md-5 offset-md-1" href="UpdateEmployer.html" type="button">Изменить данные сотрудника</button>-->
   </div>
-</ul> 
-</br>
 <script type="text/javascript">
 
 $('document').ready(function(){
@@ -128,15 +126,15 @@ function refreshEmployerdata(){
             }
 
             $("#employerList").append('<li class="row">' +
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][1] + '</div>' +
-                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                              
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][3] + '</div>' +
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][4] + '</div>' +
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + postArray[employerWorkList[i][0]] + '</div>' +
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentArray[employerWorkList[i][1]] + '</div>' +
-                '<input type="button" onclick="toggleStatus(\''+ employerList[i][0] +'\','+employerList[i][5]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
-                '</li>' +
-                '<br>');
+              '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[i][0] + '">' + employerList[i][2] + '</a>' +                                  
+              '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][1] + '</div>' +
+              '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][3] + '</div>' +
+              '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[i][4] + '</div>' +
+              '<div class="col-md-2" style="max-width: 13.666667%;">' + postArray[employerWorkList[i][0]] + '</div>' +
+              '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentArray[employerWorkList[i][1]] + '</div>' +
+              '<input type="button" onclick="toggleStatus(\''+ employerList[i][0] +'\','+employerList[i][5]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+              '</li>' +
+              '<br>');
           }
         })
       }

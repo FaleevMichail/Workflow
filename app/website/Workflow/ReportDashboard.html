@@ -13,17 +13,16 @@
 </head>
 
 <body>
-  <h1 class="jumbotron" onclick="document.location='/'">Существующие рапорта</h1>
+  <h1 class="jumbotron" onclick="document.location='/'">Список рапортов</h1>
   <br>
   <div class="">
     <ul>
       <li class="row">
-        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Номер рапорта</label>  
-        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Дата создания</label>  
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Фамилия</label>
+        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Имя</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Отчество</label>
         <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Звание</label>
-        <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Подразделение</label>
         <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Cтатус рапорта</lable>
       </li>
       <div id="raportList" >
@@ -41,8 +40,6 @@
 
     $('document').ready(function(){
         IsAdmin();
-        GetEmployerReportSize();
-        GetEmployersReportFromNum();
         GetEmployers();
         GetDepartments();
         refreshRaportdata();
@@ -173,21 +170,30 @@
                 url: '/UpdateStatusReprot',
                 data: {empNum: empNum, newStatus : !realStatus},
                 success: function(data){
-                    if(data==true)
-                    {
-                        refreshRaportdata();
-                    }
+                    console.log("refresh: ", data);
+                    
+                    refreshRaportdata();
                 },
                 async: false
             });
     }
 
+    function GetDate(timestamp){
+        date = new Date(timestamp*1000);
+        return (('0' + date.getDate()).slice(-2) + 
+            '-' + ('0' + date.getMonth()).slice(-2)+
+            '-' + date.getFullYear())
+    }
+
     function refreshRaportdata(){
+        GetEmployerReportSize();
+        GetEmployersReportFromNum();
         $("#raportList").empty();
         if (document.adminFlag == true){
             //Выводим все рапорта
             
             for (var i = 0; i < reportList.length; i++){
+                console.log(reportList[i][6]);
                 if(reportList[i][2]){
                     status = "Подтвержден";
                     buttonClass = "btn-success";
@@ -198,12 +204,11 @@
                     liClass = "";
                 }
                 $("#raportList").append('<li class="row">' +
-                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/ReportInfo.html?reportID=' + i + '">' + i + '</a>' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/ReportsInfo.html?repID=' + i + '">' + GetDate(reportList[i][6]) + '</a>' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/ReportsForEmployerId.html?employerID=' + employerList[reportList[i][0]][0] + '">' + employerList[reportList[i][0]][2] + '</a>' +
                 '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][1] + '</div>' +
-                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/UpdateEmployer.html?employerID=' + employerList[reportList[i][0]][0] + '">' + employerList[reportList[i][0]][2] + '</a>' +                              
                 '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][3] + '</div>' +
                 '<div class="col-md-2" style="max-width: 13.666667%;">' + employerList[reportList[i][0]][4] + '</div>' +
-                '<div class="col-md-2" style="max-width: 13.666667%;">' + departmentList[workplaceList[reportList[i][0]][1]] + '</div>' +
                 '<input type="button" onclick="toggleStatus(\''+ i +'\','+reportList[i][2]+')" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
                 '</li>' +
                 '<br>');

@@ -218,19 +218,20 @@ contract EmployerContract{
                 );
         }
 
-    function GetEmployerWorkplaceFromAddr() returns(
+    function GetEmployerWorkplaceFromAddr(address employer) returns(
         uint postId,
         uint departmentId){
             return(
-                employerArray[employerAddr_employerNum[msg.sender]].employerPostID,
-                employerArray[employerAddr_employerNum[msg.sender]].employerDepartmentID
+                employerArray[employerAddr_employerNum[employer]].employerPostID,
+                employerArray[employerAddr_employerNum[employer]].employerDepartmentID
             );
     }
 
-    function GetEmployerNumFromEmployerAddr() returns(uint num){
-        num = employerAddr_employerNum[msg.sender];
+    function GetEmployerNumFromEmployerAddr() returns(uint[]){
+        uint[] num;
+        num.push(employerAddr_employerNum[msg.sender]);
         return(num);
-        }
+        }   
 
     function GetEmployersFromDepartmentId (uint depId) returns (uint[]){
         uint[] result;

@@ -9,5 +9,5 @@ module.exports = function(deployer) {
   deployer.deploy(PostContract);
   deployer.deploy(DepartmentContract);
   deployer.deploy(EmployerContract);
-  deployer.deploy(ReportContract, {gas:10000000});
+  deployer.deploy(ReportContract, {gas:11000000});
 };

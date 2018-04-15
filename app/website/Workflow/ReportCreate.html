@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>Report | Create</title>
+    <script
+      src="/lib/js/jquery.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    
+    <body>
+        <h1 class="jumbotron" id="reportHead" onclick="document.location='/'" ></h1>
+        <br>
+            <div class="container-fluid jumbotron">
+                <form method="post" class="form-group" action="/">
+                  <select id="templateReportSelect" onchange="GetTemplateReportSelect(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
+                  </select>
+                  <a id="templateReportShow" class="btn btn-info col-md-5 offset-md-1" style="max-width: 24.666667%;color: white;" onclick="TemplateReportShow()"> Создать шаблон рапорта </a>
+                </form>
+                
+                <button id="createReportBt" onclick="CreateReport()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 9.666667%;" >Создать рапорт</button>
+            </div>
+            <br>
+            <div id="TemplateReport" >
+            </div>
+            
+    </body>
+    <script>
+
+        $(document).ready(function(){
+            var url = window.location.href;
+            $.post("/ParseMyUrlEmpId",{url: url}, function(data){
+            if(data!=null)
+            {
+                document.employerNum = data;
+                GetEmployers();
+                $('#reportHead').html("Создание рапорта сотрудником: <b>" + employerList[2] + " " + employerList[1] + " " + employerList[3] + "</b>");
+                GetTemplateReport();
+                GetDepartments();
+                
+            }
+            });
+        });
+
+        var employerList = new Array;
+        var workplaceList = new Array;
+        function GetEmployers(){
+            $.ajax({
+                type: 'POST',
+                url: '/GetEmployerFromNum',
+                data: {empNum:document.employerNum},
+                success: function(data){
+                            if(data != null){
+                                employerList = data[0];
+                                workplaceList = data[1];
+                                console.log(employerList);                                
+                            }
+                        },
+                async: false
+            })
+        }
+
+        var templateReportList = new Array;
+        function GetTemplateReport(){
+            $("#templateReportSelect").append('<option>' + "Выберите шаблон рапорта" + '</option>');
+            $.ajax({
+                type: 'POST',
+                url: '/GetTemplateReportArraySize',
+                success: function(data){
+                    if(data != null){
+                        document.templateReportArraySize = data[0];
+                    }
+                },
+                async: false
+            })
+            for(var i = 0; i < document.templateReportArraySize; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetTemplateReportFromNum',
+                    data: {tempRep:i},
+                    success: function(data){
+                        if(data != null){
+                            templateReportList.push(data);
+                            $("#templateReportSelect").append('<option value = "' + i + '">' + data[0] + '</option>');
+                        }
+                    },
+                    async: false
+                })
+            }
+            
+        }
+
+        var departmentList = new Array;
+        function GetDepartments(){
+            $.ajax({
+                type: 'POST',
+                url: '/GetDepartmentArraySize',
+                success: function(data){
+                    if(data != null){
+                        console.log('GetDepartmentArraySize: ', data);
+                        document.departmentSize = data.length;
+                    }
+                },
+                async: false
+            })
+
+            for(var i = 0; i < document.departmentSize; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetDepartmentFromDepartmentNum',
+                    data: {depNum:i},
+                    success: function(data){
+                        departmentList[i] = new Array;
+                        if(data != 0){
+                            departmentList[i] = data;
+                            console.log(departmentList[i]);
+                        }
+                    },
+                    async: false
+                });
+            }
+        }
+
+        function GetTemplateReportSelect(obj){
+            document.templateReport = obj.options[obj.selectedIndex].value;
+        }
+
+        function CreateReport(){
+            $.ajax({
+                type: 'POST',
+                url: '/CreateReport',
+                data:{tempRepNum:document.templateReport, empNum:employerList[0]},
+                success: function(data){
+                    if(data != 0){
+                        if (data){
+                            alert("Новый рапорт составлен");
+                            window.location.replace("/website/Workflow/ReportFromEmployer.html");
+                        }else{
+                            alert("Рапорт не составлен");
+                        }
+                    }
+                },
+                async: false
+            })
+        }
+        
+        var checkDepartment = new Array;
+        function CreateTemplateReport(){
+            for (var i = 0; i < document.departmentSize; i++){
+                var name = "#option"+i;
+                if($(name).prop('checked')){
+                    checkDepartment.push(i);
+                }
+            }
+            var newTitle = $('#title').val();
+            $.ajax({
+                type: 'POST',
+                url: '/CreateTemplateReport',
+                data: {title:newTitle, depArray:checkDepartment},
+                success: function(data){
+                    //if(data != 0){
+                        console.log(data);
+                        if(data == true){
+                            alert("Новый шаблон рапорта составлен");
+                            location.reload();
+                        }else{
+                            alert("Шаблон рапорта не составлен");
+                        }
+                    //}
+                },
+                async: false
+            })
+            
+        }
+
+        function TemplateReportShow(){
+            $("#templateReportShow").css("display", "none");
+            $("#TemplateReport").append('<div id="TemplateReportCreater" class="container-fluid jumbotron">'+
+                '<input name="title" type="text" class="form-control col-sm-5 offset-md-1" id="title" placeholder="Название шаблона"><br>'+
+                '<form id="departmentChB" method="post" class="col-sm-5 offset-md-1" action="input5.php">'+
+                '<p><b>Выберите подразделения, подтверждения которых требуется</b></p>'+
+                '</form>'+
+                '<button id="createReportBt" onclick="CreateTemplateReport()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 9.666667%;" >Создать шаблон</button>'+
+                '</div>'
+            )
+            for (var i = 0; i < document.departmentSize; i++){
+                $("#departmentChB").append(
+                    '<p><input type="checkbox" id="option'+ i +'" value="a1">' + departmentList[i][1] +'<Br>'
+                )
+            }
+            
+        }
+
+    </script>

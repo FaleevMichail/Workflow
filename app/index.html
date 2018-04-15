@@ -14,31 +14,18 @@
 </head>
 
 <body>
+
   <div id="Menu" class="vertical-center jumbotron">
-    <div id="user" class="text-center container">
-      <h1 class="">Ethereum Workflow</h1>
+    <div id="Data" class="text-center container">
+      <h1 id="MainName"></h1>
       <br>
-      <div class="row justify-content-md-center">
-        <a class="btn btn-info col-md-5" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудника</a>
-        <a class="btn btn-info col-md-5 offset-md-1" href="website/trash/h.html" type="button">Подать pапорт</a>
-      </div>
-    </div>
-    <div id="admin" class="text-center container" style="display: block; max-width: 1300px;">
-      <h1 class="">Ethereum Workflow ADMINNISTRATOR</h1>
-      <br>
-      <div class="row justify-content-md-center">
-        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудников</a>
-        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/DepartmentDashboard.html" type="button">Настройка подразделений</a>
-        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/PostDashboard.html" type="button">Настройка должностей</a>
-        <a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/ReportDashboard.html" type="button">Управление рапортами</a>
+      <div id='dataField' class="row justify-content-md-center">
+
       </div>
     </div>
   </div>
 
   <script type="text/javascript">
-
-    var adminFlag;
-    var isAdminFlag;
 
   function startapp(web3){
     $.get("/initializeWeb3",{web3: web3}, function(data){
@@ -67,46 +54,81 @@
   };
 
   $('document').ready(function(){
-    $("#user").css("display", "block");
-    $("#admin").css("display", "none");
     IsAdmin();
+    if(document.adminFlag){
+      AsrtAdmin();
+    }else{
+      SetAdmin();
+    }
   });
 
-  function IsAdmin(){
-      $.post("/IsAdmin", function(data){
-      if(data != null){
-        console.log("function IsAdmin set adminFlag: ", data);
-        adminFlag = data;
-        if(adminFlag){
-          console.log("Admin live");
-          $.post("/AsrtAdmin", function(data){
-            if(data != null){
-              console.log("function AsrtAdmin set isAdminFlag: ", data);
-              isAdminFlag = data;
-              if(isAdminFlag){
+    function IsAdmin(){
+      $.ajax({
+        type: 'POST',
+        url: '/IsAdmin',
+        success: function(data){
+          if(data != null){
+            console.log("function IsAdmin set adminFlag: ", data);
+            document.adminFlag = data;
+          }
+        },
+        async: false
+      })
+    }
+
+    function AsrtAdmin(){
+      $.ajax({
+        type: 'POST',
+        url: '/AsrtAdmin',
+        success: function(data){
+          if(data != null){
+            document.isAdminFlag = false;
+              if(document.isAdminFlag){
                 console.log("YouAdmin");
-                document.getElementById('admin').style.display = 'block';
-                document.getElementById('user').style.display = 'none';
+                adminField();
               }else{
                 console.log("YouUser");
+                userField();
               }
-            }
-          })
-        }else{
-          console.log("Setting Admin");
-          $.post("/SetAdmin", function(data){
-            if(data != null){
-              if(data == true){
-                console.log("Admin is set");
-                AsrtAdmin();
-              }else{
-                console.log("Admin is not set");
-              }
-            }
-          })
+          }
+        },
+        async: false
+      })
     }
-      }
-    });
+
+    function SetAdmin(){
+      $.ajax({
+        type: 'POST',
+        url: '/SetAdmin',
+        seccess: function(data){
+            if(data == true){
+              console.log("Admin is set");
+              adminField();
+            }else{
+              console.log("Admin is not set");
+              alert('Администратор не был установлен');
+            }
+        },
+        async: false
+      })
+    }
+
+    function adminField(){
+      $('#MainName').html("Ethereum Workflow ADMINNISTRATOR");
+      $("#dataField").append(
+      '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/EmployerDashboard.html" type="button">Данные сотрудников</a>'+
+      '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/DepartmentDashboard.html" type="button">Подразделения</a>' +
+      '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/PostDashboard.html" type="button">Должности</a>' +
+      '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 16.667%;" href="website/Workflow/ReportDashboard.html" type="button">Управление рапортами</a>'
+      );
+    }
+
+    function userField(){
+      $('#MainName').html("Ethereum Workflow");
+                $("#dataField").append(
+                  '<a class="btn btn-info col-md-5" href="website/Workflow/EmployerData.html" type="button">Данные сотрудника</a>' +
+                  '<a class="btn btn-info col-md-5 offset-md-1" href="website/Workflow/ReportFromEmployer.html" type="button">Рапорта сотрудника</a>'
+                );
     }
 
 </script>

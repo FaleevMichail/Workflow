@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Report For Employer</title>
+    <script
+      src="/lib/js/jquery.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="/app/lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <body>
+        <h1 class="jumbotron" id="reportIDHead" onclick="document.location='/'"></h1>
+        <br>
+        <div class="">
+            <ul>
+            <li class="row">
+                <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">номер рапорта</label>
+                <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Дата создания</label>
+                <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Время создания</label>  
+                <label class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Тип рапорта</label>
+                <lable class="col-md-2 font-weight-bold" style="max-width: 13.666667%;">Cтатус рапорта</lable>
+            </li>
+            <div id="raportList" >
+            </div>
+            
+            </ul>
+            
+        </div>
+    </body>
+
+<script>
+    $(document).ready(function(){
+        var url = window.location.href;
+        $.post("/ParseMyUrlEmpId",{url: url}, function(data){
+            if(data!=null){
+                document.employerNum = data;
+                GetEmployers();
+                $('#reportIDHead').html("Рапорта сотрудника: " + "<b>" + employerList[2] + " " + employerList[1] + " " + employerList[3] + " " + "</b>");
+                refreshRaportdata();
+            }
+        });
+    });
+
+    var employerList = new Array;
+    var workplaceList = new Array;
+    function GetEmployers(){
+        $.ajax({
+            type: 'POST',
+            url: '/GetEmployerFromNum',
+            data: {empNum:document.employerNum},
+            success: function(data){
+                        if(data != null){
+                            employerList = data[0];
+                            workplaceList = data[1];
+                            console.log(employerList);                                
+                        }
+                    },
+            async: false
+        })
+    }
+
+    var reportIdList = new Array;
+    function GetEmployersReportListFromNum(){
+        $.ajax({
+            type: 'POST',
+            data: {emplNum:document.employerNum},
+            url: '/GetEmployersReportListFromNum',
+            success: function(data){
+                if(data != null){
+                    console.log('GetEmployersReportListFromNum: ', data);
+                    reportIdList = data;
+                }
+            },
+            async: false
+        })
+    }
+
+    var reportList = new Array;
+    function GetEmployersReportFromNum(){
+            for(var i = 0; i < reportIdList.length; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetEmployersReportFromNum',
+                    data: {emplNum:reportIdList[i]},
+                    success: function(data){
+                        reportList[i] = new Array;
+                        if(data != 0){
+                            reportList[i] = data;
+                            console.log(reportList[i]);
+                        }
+                    },
+                    async: false
+                });
+
+            }
+    }
+
+    function GetDate(timestamp){
+        date = new Date(timestamp*1000);
+        return (('0' + date.getDate()).slice(-2) + 
+            '-' + ('0' + date.getMonth()).slice(-2)+
+            '-' + date.getFullYear())
+    }
+
+    function GetTime(timestamp){
+        time = new Date(timestamp*1000);
+        return (('0' + date.getHours()).slice(-2)+
+            ':' + ('0' + date.getMinutes()).slice(-2)+
+            ':' + ('0' + date.getSeconds()).slice(-2)
+        )
+    }
+
+    function refreshRaportdata(){
+        GetEmployersReportListFromNum();
+        GetEmployersReportFromNum();
+        $("#raportList").empty();
+            //Выводим все рапорта
+            
+            for (var i = 0; i < reportIdList.length; i++){
+                console.log(reportList[i][6]);
+                if(reportList[i][2]){
+                    status = "Подтвержден";
+                    buttonClass = "btn-success";
+                    liClass = "bg-secondary"
+                }else {
+                    status = "Не подтвержден";
+                    buttonClass = "btn-danger";
+                    liClass = "";
+                }
+                $("#raportList").append('<li class="row">' +
+                '<a class="col-md-2 " style="max-width: 13.666667%;" href="/ReportsInfo.html?repID=' + reportIdList[i] + '">' + reportIdList[i] + '</a>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + GetDate(reportList[i][6]) + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + GetTime(reportList[i][6]) + '</div>' +
+                '<div class="col-md-2" style="max-width: 13.666667%;">' + reportList[i][1] + '</div>' +
+                '<input type="button" class="col-md-1 btn '+ buttonClass + ' statusButton" value="'+ status +'"/>' +
+                '</li>' +
+                '<br>');
+            }
+        
+    }
+
+    </script>
+</head>
+</html>
