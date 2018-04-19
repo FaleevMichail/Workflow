@@ -47,6 +47,8 @@
     } else {
       var myWeb3 = new Web3(window.web3.currentProvider);
       myWeb3.eth.defaultAccount = window.web3.eth.defaultAccount;
+      document.use_account = web3.eth.accounts[0];
+      
 
       callback(myWeb3);
     }
@@ -54,6 +56,17 @@
   };
 
   $('document').ready(function(){
+    $.ajax({
+      type: 'POST',
+      url: 'GetUseAccount',
+      data: {account: document.use_account},
+      success: function(data){
+        if(data != null){
+
+        }
+      },
+      async: false
+    });
     IsAdmin();
     if(document.adminFlag){
       AsrtAdmin();
@@ -76,18 +89,33 @@
       })
     }
 
+    function PrivilegedUser(){
+      $.ajax({
+        type: 'POST',
+        url: '/GetEmployerDataFromAddr',
+        success: function(data){
+          if(data != null){
+            console.log("privileged: ", data);
+            document.confirmFlag = data[1][2];
+          }
+        },
+        async: false
+      })
+    }
+
     function AsrtAdmin(){
       $.ajax({
         type: 'POST',
         url: '/AsrtAdmin',
         success: function(data){
           if(data != null){
-            document.isAdminFlag = false;
+            document.isAdminFlag = data;
               if(document.isAdminFlag){
                 console.log("YouAdmin");
                 adminField();
               }else{
                 console.log("YouUser");
+                PrivilegedUser()
                 userField();
               }
           }
@@ -100,7 +128,7 @@
       $.ajax({
         type: 'POST',
         url: '/SetAdmin',
-        seccess: function(data){
+        success: function(data){
             if(data == true){
               console.log("Admin is set");
               adminField();
@@ -124,11 +152,21 @@
     }
 
     function userField(){
-      $('#MainName').html("Ethereum Workflow");
+      if(document.confirmFlag){
+        $('#MainName').html("Ethereum Workflow");
+                $("#dataField").append(
+                  '<a class="btn btn-info col-md-5" style="max-width: 25%;" href="website/Workflow/EmployerData.html" type="button">Данные сотрудника</a>' +
+                  '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 25%;" href="website/Workflow/ReportFromEmployer.html" type="button">Рапорта сотрудника</a>'+
+                  '<a class="btn btn-info col-md-5 offset-md-1" style="max-width: 25%;" href="website/Workflow/ReportAccept.html" type="button">Подтвердить рапорта</a>'
+                );
+      }else{
+        $('#MainName').html("Ethereum Workflow");
                 $("#dataField").append(
                   '<a class="btn btn-info col-md-5" href="website/Workflow/EmployerData.html" type="button">Данные сотрудника</a>' +
                   '<a class="btn btn-info col-md-5 offset-md-1" href="website/Workflow/ReportFromEmployer.html" type="button">Рапорта сотрудника</a>'
                 );
+      }
+      
     }
 
 </script>

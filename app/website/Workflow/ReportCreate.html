@@ -40,7 +40,7 @@
                 $('#reportHead').html("Создание рапорта сотрудником: <b>" + employerList[2] + " " + employerList[1] + " " + employerList[3] + "</b>");
                 GetTemplateReport();
                 GetDepartments();
-                
+                GetReportFieldNameList();
             }
             });
         });
@@ -146,6 +146,23 @@
                 async: false
             })
         }
+
+        var fieldNameList = new Array;
+        function GetReportFieldNameList(){
+            for(var i = 0; i < document.templateReportArraySize; i++){
+                $.ajax({
+                    type: 'POST',
+                    url: '/GetReportFieldNameList',
+                    data: {templateRepNum: i},
+                    success: function(data){
+                        if(data!=null){
+                            fieldNameList[i] = data;
+                        }
+                    },
+                    async: false
+                })
+            }
+        }
         
         var checkDepartment = new Array;
         function CreateTemplateReport(){
@@ -173,7 +190,6 @@
                 },
                 async: false
             })
-            
         }
 
         function TemplateReportShow(){

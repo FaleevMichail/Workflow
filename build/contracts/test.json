@@ -1,0 +1,2445 @@
+{
+  "contractName": "test",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "fieldList",
+      "outputs": [
+        {
+          "name": "reportNum",
+          "type": "uint256"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_reportNum",
+          "type": "uint256"
+        },
+        {
+          "name": "_fieldName",
+          "type": "string"
+        },
+        {
+          "name": "_fieldData",
+          "type": "string"
+        }
+      ],
+      "name": "SetField",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "GetField",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60606040526000600255341561001457600080fd5b610a68806100236000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806311e1f3441461005c5780637101d63a146101a5578063f7bab1fc1461033a575b600080fd5b341561006757600080fd5b61007d600480803590602001909190505061043b565b6040518084815260200180602001806020018381038352858181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101105780601f106100e557610100808354040283529160200191610110565b820191906000526020600020905b8154815290600101906020018083116100f357829003601f168201915b50508381038252848181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101935780601f1061016857610100808354040283529160200191610193565b820191906000526020600020905b81548152906001019060200180831161017657829003601f168201915b50509550505050505060405180910390f35b34156101b057600080fd5b61024c600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610472565b604051808481526020018060200180602001838103835285818151815260200191508051906020019080838360005b8381101561029657808201518184015260208101905061027b565b50505050905090810190601f1680156102c35780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b838110156102fc5780820151818401526020810190506102e1565b50505050905090810190601f1680156103295780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b341561034557600080fd5b61034d6106c7565b604051808481526020018060200180602001838103835285818151815260200191508051906020019080838360005b8381101561039757808201518184015260208101905061037c565b50505050905090810190601f1680156103c45780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b838110156103fd5780820151818401526020810190506103e2565b50505050905090810190601f16801561042a5780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b60018181548110151561044a57fe5b9060005260206000209060030201600091509050806000015490806001019080600201905083565b600061047c610880565b610484610880565b61048c610894565b606060405190810160405280888152602001878152602001868152509050600180548060010182816104be91906108c2565b916000526020600020906003020160008390919091506000820151816000015560208201518160010190805190602001906104fa9291906108f4565b5060408201518160020190805190602001906105179291906108f4565b505050506001600081548110151561052b57fe5b9060005260206000209060030201600001546001600081548110151561054d57fe5b90600052602060002090600302016001016001600081548110151561056e57fe5b9060005260206000209060030201600201818054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106145780601f106105e957610100808354040283529160200191610614565b820191906000526020600020905b8154815290600101906020018083116105f757829003601f168201915b50505050509150808054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106b05780601f10610685576101008083540402835291602001916106b0565b820191906000526020600020905b81548152906001019060200180831161069357829003601f168201915b505050505090509350935093505093509350939050565b60006106d1610880565b6106d9610880565b600160008154811015156106e957fe5b9060005260206000209060030201600001546001600081548110151561070b57fe5b90600052602060002090600302016001016001600081548110151561072c57fe5b9060005260206000209060030201600201818054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156107d25780601f106107a7576101008083540402835291602001916107d2565b820191906000526020600020905b8154815290600101906020018083116107b557829003601f168201915b50505050509150808054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561086e5780601f106108435761010080835404028352916020019161086e565b820191906000526020600020905b81548152906001019060200180831161085157829003601f168201915b50505050509050925092509250909192565b602060405190810160405280600081525090565b606060405190810160405280600081526020016108af610974565b81526020016108bc610974565b81525090565b8154818355818115116108ef576003028160030283600052602060002091820191016108ee9190610988565b5b505050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061093557805160ff1916838001178555610963565b82800160010185558215610963579182015b82811115610962578251825591602001919060010190610947565b5b50905061097091906109cf565b5090565b602060405190810160405280600081525090565b6109cc91905b808211156109c8576000808201600090556001820160006109af91906109f4565b6002820160006109bf91906109f4565b5060030161098e565b5090565b90565b6109f191905b808211156109ed5760008160009055506001016109d5565b5090565b90565b50805460018160011615610100020316600290046000825580601f10610a1a5750610a39565b601f016020900490600052602060002090810190610a3891906109cf565b5b505600a165627a7a723058206ba4dddef8434e2fac347721f5357eb90acf94fbd884e605b648c5c46844e0690029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806311e1f3441461005c5780637101d63a146101a5578063f7bab1fc1461033a575b600080fd5b341561006757600080fd5b61007d600480803590602001909190505061043b565b6040518084815260200180602001806020018381038352858181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101105780601f106100e557610100808354040283529160200191610110565b820191906000526020600020905b8154815290600101906020018083116100f357829003601f168201915b50508381038252848181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101935780601f1061016857610100808354040283529160200191610193565b820191906000526020600020905b81548152906001019060200180831161017657829003601f168201915b50509550505050505060405180910390f35b34156101b057600080fd5b61024c600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610472565b604051808481526020018060200180602001838103835285818151815260200191508051906020019080838360005b8381101561029657808201518184015260208101905061027b565b50505050905090810190601f1680156102c35780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b838110156102fc5780820151818401526020810190506102e1565b50505050905090810190601f1680156103295780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b341561034557600080fd5b61034d6106c7565b604051808481526020018060200180602001838103835285818151815260200191508051906020019080838360005b8381101561039757808201518184015260208101905061037c565b50505050905090810190601f1680156103c45780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b838110156103fd5780820151818401526020810190506103e2565b50505050905090810190601f16801561042a5780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b60018181548110151561044a57fe5b9060005260206000209060030201600091509050806000015490806001019080600201905083565b600061047c610880565b610484610880565b61048c610894565b606060405190810160405280888152602001878152602001868152509050600180548060010182816104be91906108c2565b916000526020600020906003020160008390919091506000820151816000015560208201518160010190805190602001906104fa9291906108f4565b5060408201518160020190805190602001906105179291906108f4565b505050506001600081548110151561052b57fe5b9060005260206000209060030201600001546001600081548110151561054d57fe5b90600052602060002090600302016001016001600081548110151561056e57fe5b9060005260206000209060030201600201818054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106145780601f106105e957610100808354040283529160200191610614565b820191906000526020600020905b8154815290600101906020018083116105f757829003601f168201915b50505050509150808054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106b05780601f10610685576101008083540402835291602001916106b0565b820191906000526020600020905b81548152906001019060200180831161069357829003601f168201915b505050505090509350935093505093509350939050565b60006106d1610880565b6106d9610880565b600160008154811015156106e957fe5b9060005260206000209060030201600001546001600081548110151561070b57fe5b90600052602060002090600302016001016001600081548110151561072c57fe5b9060005260206000209060030201600201818054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156107d25780601f106107a7576101008083540402835291602001916107d2565b820191906000526020600020905b8154815290600101906020018083116107b557829003601f168201915b50505050509150808054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561086e5780601f106108435761010080835404028352916020019161086e565b820191906000526020600020905b81548152906001019060200180831161085157829003601f168201915b50505050509050925092509250909192565b602060405190810160405280600081525090565b606060405190810160405280600081526020016108af610974565b81526020016108bc610974565b81525090565b8154818355818115116108ef576003028160030283600052602060002091820191016108ee9190610988565b5b505050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061093557805160ff1916838001178555610963565b82800160010185558215610963579182015b82811115610962578251825591602001919060010190610947565b5b50905061097091906109cf565b5090565b602060405190810160405280600081525090565b6109cc91905b808211156109c8576000808201600090556001820160006109af91906109f4565b6002820160006109bf91906109f4565b5060030161098e565b5090565b90565b6109f191905b808211156109ed5760008160009055506001016109d5565b5090565b90565b50805460018160011615610100020316600290046000825580601f10610a1a5750610a39565b601f016020900490600052602060002090810190610a3891906109cf565b5b505600a165627a7a723058206ba4dddef8434e2fac347721f5357eb90acf94fbd884e605b648c5c46844e0690029",
+  "sourceMap": "26:939:6:-;;;251:1;232:20;;26:939;;;;;;;;;;;;;;",
+  "deployedSourceMap": "26:939:6:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;197:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;263:473;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;746:217:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;197:24:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;263:473::-;393:4;411:6;;:::i;:::-;431;;:::i;:::-;448:21;;:::i;:::-;472:112;;;;;;;;;503:10;472:112;;;;533:10;472:112;;;;563:10;472:112;;;448:136;;594:9;:24;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;609:8;594:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;636:9;646:1;636:12;;;;;;;;;;;;;;;;;;;;:22;;;676:9;686:1;676:12;;;;;;;;;;;;;;;;;;;;:17;;711:9;721:1;711:12;;;;;;;;;;;;;;;;;;;;:17;;628:101;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;263:473;;;;;;;;:::o;746:217::-;792:4;806:6;;:::i;:::-;822;;:::i;:::-;851:9;861:1;851:12;;;;;;;;;;;;;;;;;;;;:22;;;895:9;905:1;895:12;;;;;;;;;;;;;;;;;;;;:17;;934:9;944:1;934:12;;;;;;;;;;;;;;;;;;;;:17;;843:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;746:217;;;:::o;26:939::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;:::i;:::-;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;:::i;:::-;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o",
+  "source": "pragma solidity ^0.4.18;\n\ncontract test {\n    mapping (uint => uint[]) reportNum_reportFieldNum;\n    \n    struct Field{\n        uint reportNum;\n        string name;\n        string data;\n    }\n\n    Field[] public fieldList;\n    \n    uint fieldNumber = 0;\n    \n    function SetField(\n        uint _reportNum, \n        string _fieldName, \n        string _fieldData) constant returns(\n            uint,\n            string,\n            string){\n        Field memory newField = Field({\n            reportNum: _reportNum,\n            name: _fieldName,\n            data: _fieldData\n        });\n        fieldList.push(newField);\n        return( fieldList[0].reportNum,\n                fieldList[0].name,\n                fieldList[0].data);\n    }\n    \n    function GetField() constant returns(\n        uint,\n        string,\n        string){\n            return( fieldList[0].reportNum,\n                    fieldList[0].name,\n                    fieldList[0].data);\n        }\n}",
+  "sourcePath": "/home/user/Documents/WorkFlow/contracts/test.sol",
+  "ast": {
+    "absolutePath": "/home/user/Documents/WorkFlow/contracts/test.sol",
+    "exportedSymbols": {
+      "test": [
+        3592
+      ]
+    },
+    "id": 3593,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3505,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3592,
+        "linearizedBaseContracts": [
+          3592
+        ],
+        "name": "test",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 3510,
+            "name": "reportNum_reportFieldNum",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "46:49:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(uint256 => uint256[] storage ref)"
+            },
+            "typeName": {
+              "id": 3509,
+              "keyType": {
+                "id": 3506,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "55:4:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "46:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(uint256 => uint256[] storage ref)"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 3507,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "63:4:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 3508,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "63:6:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[] storage pointer"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "test.Field",
+            "id": 3517,
+            "members": [
+              {
+                "constant": false,
+                "id": 3512,
+                "name": "reportNum",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "128:14:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3511,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "128:4:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3514,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "152:11:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 3513,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "152:6:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3516,
+                "name": "data",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "173:11:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 3515,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "173:6:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Field",
+            "nodeType": "StructDefinition",
+            "scope": 3592,
+            "src": "106:85:6",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 3520,
+            "name": "fieldList",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "197:24:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+              "typeString": "struct test.Field storage ref[] storage ref"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 3518,
+                "name": "Field",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 3517,
+                "src": "197:5:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Field_$3517_storage_ptr",
+                  "typeString": "struct test.Field storage pointer"
+                }
+              },
+              "id": 3519,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "197:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage_ptr",
+                "typeString": "struct test.Field storage ref[] storage pointer"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 3523,
+            "name": "fieldNumber",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "232:20:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3521,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "232:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 3522,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "251:1:6",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 3566,
+              "nodeType": "Block",
+              "src": "438:298:6",
+              "statements": [
+                {
+                  "assignments": [
+                    3539
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 3539,
+                      "name": "newField",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 3567,
+                      "src": "448:21:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                        "typeString": "struct test.Field memory"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 3538,
+                        "name": "Field",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 3517,
+                        "src": "448:5:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Field_$3517_storage_ptr",
+                          "typeString": "struct test.Field storage pointer"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 3545,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3541,
+                        "name": "_reportNum",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3525,
+                        "src": "503:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3542,
+                        "name": "_fieldName",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3527,
+                        "src": "533:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3543,
+                        "name": "_fieldData",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3529,
+                        "src": "563:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 3540,
+                      "name": "Field",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 3517,
+                      "src": "472:5:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Field_$3517_storage_ptr_$",
+                        "typeString": "type(struct test.Field storage pointer)"
+                      }
+                    },
+                    "id": 3544,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [
+                      "reportNum",
+                      "name",
+                      "data"
+                    ],
+                    "nodeType": "FunctionCall",
+                    "src": "472:112:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Field_$3517_memory",
+                      "typeString": "struct test.Field memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "448:136:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3549,
+                        "name": "newField",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3539,
+                        "src": "609:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                          "typeString": "struct test.Field memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                          "typeString": "struct test.Field memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3546,
+                        "name": "fieldList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3520,
+                        "src": "594:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                          "typeString": "struct test.Field storage ref[] storage ref"
+                        }
+                      },
+                      "id": 3548,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "594:14:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Field_$3517_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct test.Field storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 3550,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "594:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 3551,
+                  "nodeType": "ExpressionStatement",
+                  "src": "594:24:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3552,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "636:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3554,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3553,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "646:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "636:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3555,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "reportNum",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3512,
+                        "src": "636:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3556,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "676:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3558,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3557,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "686:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "676:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3559,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "name",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3514,
+                        "src": "676:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3560,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "711:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3562,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3561,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "721:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "711:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3563,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "data",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3516,
+                        "src": "711:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      }
+                    ],
+                    "id": 3564,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "634:95:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_string_storage_$_t_string_storage_$",
+                      "typeString": "tuple(uint256,string storage ref,string storage ref)"
+                    }
+                  },
+                  "functionReturnParameters": 3537,
+                  "id": 3565,
+                  "nodeType": "Return",
+                  "src": "628:101:6"
+                }
+              ]
+            },
+            "id": 3567,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "SetField",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3525,
+                  "name": "_reportNum",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "290:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3524,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3527,
+                  "name": "_fieldName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "316:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3526,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "316:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3529,
+                  "name": "_fieldData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "344:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3528,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "344:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "280:82:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3537,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3532,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "393:4:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3531,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3534,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "411:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3533,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "411:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3536,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "431:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3535,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "431:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "379:59:6"
+            },
+            "scope": 3592,
+            "src": "263:473:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 3590,
+              "nodeType": "Block",
+              "src": "829:134:6",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3576,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "851:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3578,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3577,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "861:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "851:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3579,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "reportNum",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3512,
+                        "src": "851:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3580,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "895:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3582,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3581,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "905:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "895:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3583,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "name",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3514,
+                        "src": "895:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3584,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "934:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3586,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3585,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "944:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "934:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3587,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "data",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3516,
+                        "src": "934:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      }
+                    ],
+                    "id": 3588,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "849:103:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_string_storage_$_t_string_storage_$",
+                      "typeString": "tuple(uint256,string storage ref,string storage ref)"
+                    }
+                  },
+                  "functionReturnParameters": 3575,
+                  "id": 3589,
+                  "nodeType": "Return",
+                  "src": "843:109:6"
+                }
+              ]
+            },
+            "id": 3591,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "GetField",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3568,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "763:2:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3570,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "792:4:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3569,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "792:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3572,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "806:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3571,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "806:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3574,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "822:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3573,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "822:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "782:47:6"
+            },
+            "scope": 3592,
+            "src": "746:217:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 3593,
+        "src": "26:939:6"
+      }
+    ],
+    "src": "0:965:6"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/user/Documents/WorkFlow/contracts/test.sol",
+    "exportedSymbols": {
+      "test": [
+        3592
+      ]
+    },
+    "id": 3593,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3505,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3592,
+        "linearizedBaseContracts": [
+          3592
+        ],
+        "name": "test",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 3510,
+            "name": "reportNum_reportFieldNum",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "46:49:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(uint256 => uint256[] storage ref)"
+            },
+            "typeName": {
+              "id": 3509,
+              "keyType": {
+                "id": 3506,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "55:4:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "46:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(uint256 => uint256[] storage ref)"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 3507,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "63:4:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 3508,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "63:6:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[] storage pointer"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "test.Field",
+            "id": 3517,
+            "members": [
+              {
+                "constant": false,
+                "id": 3512,
+                "name": "reportNum",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "128:14:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3511,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "128:4:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3514,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "152:11:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 3513,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "152:6:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3516,
+                "name": "data",
+                "nodeType": "VariableDeclaration",
+                "scope": 3517,
+                "src": "173:11:6",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 3515,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "173:6:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Field",
+            "nodeType": "StructDefinition",
+            "scope": 3592,
+            "src": "106:85:6",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 3520,
+            "name": "fieldList",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "197:24:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+              "typeString": "struct test.Field storage ref[] storage ref"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 3518,
+                "name": "Field",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 3517,
+                "src": "197:5:6",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Field_$3517_storage_ptr",
+                  "typeString": "struct test.Field storage pointer"
+                }
+              },
+              "id": 3519,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "197:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage_ptr",
+                "typeString": "struct test.Field storage ref[] storage pointer"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 3523,
+            "name": "fieldNumber",
+            "nodeType": "VariableDeclaration",
+            "scope": 3592,
+            "src": "232:20:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3521,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "232:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 3522,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "251:1:6",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 3566,
+              "nodeType": "Block",
+              "src": "438:298:6",
+              "statements": [
+                {
+                  "assignments": [
+                    3539
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 3539,
+                      "name": "newField",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 3567,
+                      "src": "448:21:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                        "typeString": "struct test.Field memory"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 3538,
+                        "name": "Field",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 3517,
+                        "src": "448:5:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Field_$3517_storage_ptr",
+                          "typeString": "struct test.Field storage pointer"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 3545,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3541,
+                        "name": "_reportNum",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3525,
+                        "src": "503:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3542,
+                        "name": "_fieldName",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3527,
+                        "src": "533:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3543,
+                        "name": "_fieldData",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3529,
+                        "src": "563:10:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 3540,
+                      "name": "Field",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 3517,
+                      "src": "472:5:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Field_$3517_storage_ptr_$",
+                        "typeString": "type(struct test.Field storage pointer)"
+                      }
+                    },
+                    "id": 3544,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [
+                      "reportNum",
+                      "name",
+                      "data"
+                    ],
+                    "nodeType": "FunctionCall",
+                    "src": "472:112:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Field_$3517_memory",
+                      "typeString": "struct test.Field memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "448:136:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3549,
+                        "name": "newField",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3539,
+                        "src": "609:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                          "typeString": "struct test.Field memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Field_$3517_memory_ptr",
+                          "typeString": "struct test.Field memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3546,
+                        "name": "fieldList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3520,
+                        "src": "594:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                          "typeString": "struct test.Field storage ref[] storage ref"
+                        }
+                      },
+                      "id": 3548,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "594:14:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Field_$3517_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct test.Field storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 3550,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "594:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 3551,
+                  "nodeType": "ExpressionStatement",
+                  "src": "594:24:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3552,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "636:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3554,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3553,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "646:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "636:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3555,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "reportNum",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3512,
+                        "src": "636:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3556,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "676:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3558,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3557,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "686:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "676:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3559,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "name",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3514,
+                        "src": "676:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3560,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "711:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3562,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3561,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "721:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "711:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3563,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "data",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3516,
+                        "src": "711:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      }
+                    ],
+                    "id": 3564,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "634:95:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_string_storage_$_t_string_storage_$",
+                      "typeString": "tuple(uint256,string storage ref,string storage ref)"
+                    }
+                  },
+                  "functionReturnParameters": 3537,
+                  "id": 3565,
+                  "nodeType": "Return",
+                  "src": "628:101:6"
+                }
+              ]
+            },
+            "id": 3567,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "SetField",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3525,
+                  "name": "_reportNum",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "290:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3524,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3527,
+                  "name": "_fieldName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "316:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3526,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "316:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3529,
+                  "name": "_fieldData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "344:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3528,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "344:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "280:82:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3537,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3532,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "393:4:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3531,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3534,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "411:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3533,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "411:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3536,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3567,
+                  "src": "431:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3535,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "431:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "379:59:6"
+            },
+            "scope": 3592,
+            "src": "263:473:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 3590,
+              "nodeType": "Block",
+              "src": "829:134:6",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3576,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "851:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3578,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3577,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "861:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "851:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3579,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "reportNum",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3512,
+                        "src": "851:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3580,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "895:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3582,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3581,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "905:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "895:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3583,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "name",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3514,
+                        "src": "895:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 3584,
+                            "name": "fieldList",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3520,
+                            "src": "934:9:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Field_$3517_storage_$dyn_storage",
+                              "typeString": "struct test.Field storage ref[] storage ref"
+                            }
+                          },
+                          "id": 3586,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 3585,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "944:1:6",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "934:12:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Field_$3517_storage",
+                            "typeString": "struct test.Field storage ref"
+                          }
+                        },
+                        "id": 3587,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "data",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3516,
+                        "src": "934:17:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_storage",
+                          "typeString": "string storage ref"
+                        }
+                      }
+                    ],
+                    "id": 3588,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "849:103:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_string_storage_$_t_string_storage_$",
+                      "typeString": "tuple(uint256,string storage ref,string storage ref)"
+                    }
+                  },
+                  "functionReturnParameters": 3575,
+                  "id": 3589,
+                  "nodeType": "Return",
+                  "src": "843:109:6"
+                }
+              ]
+            },
+            "id": 3591,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "GetField",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3568,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "763:2:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3570,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "792:4:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3569,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "792:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3572,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "806:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3571,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "806:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3574,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3591,
+                  "src": "822:6:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3573,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "822:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "782:47:6"
+            },
+            "scope": 3592,
+            "src": "746:217:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 3593,
+        "src": "26:939:6"
+      }
+    ],
+    "src": "0:965:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {
+    "1524083048437": {
+      "events": {},
+      "links": {},
+      "address": "0x95c488f0a085bcf586a4327787453b0ee393333b",
+      "transactionHash": "0x3a93ccae8ce9aba7c914ca3a9bae7b2b2e1e3ad647271fb911dd5dcbe9d69aae"
+    },
+    "1524086363238": {
+      "events": {},
+      "links": {},
+      "address": "0xddf14bafa737810911d76f6cb3a121777435653f",
+      "transactionHash": "0xe3beb5e709c4fa924b4fce887b48c8bda69b22f94ebe0bc0b3bba4e14f9c65cc"
+    }
+  },
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-04-19T20:40:13.923Z"
+}

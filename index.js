@@ -68,6 +68,11 @@ router.get("/ReportCreate.html", function(req,res){
   res.sendFile(path + "/website/Workflow/ReportCreate.html");
 });
 
+router.get("/ReportAccept.html", function(req,res){
+  res.sendFile(path + "/website/Workflow/ReportAccept.html");
+});
+
+
 
 app.use(express.static('.'));
 app.use(express.static('app'));
@@ -114,12 +119,6 @@ app.post("/ParseMyUrlRepId", function(req,res){
   res.send(query.repID);
 })
 
-
-/*app.post("/website/employer/addnewjob.html", function(req,res){
-  console.log(req.body);
-});*/
-
-
 app.use("/", router);
 
 app.listen(3000, function(){
@@ -127,14 +126,14 @@ app.listen(3000, function(){
 });
 
 
-app.get('/initializeWeb3',function(req,res){
+app.get("/initializeWeb3",function(req,res){
   Web3 = require('web3');
   web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 });
 
 Web3 = require('web3');
 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-
+//console.log("----------", web3.eth.accounts[0]);
 var TruffleContract = require('truffle-contract');
 
 var fileAdmin = 'build/contracts/AdminContract.json';
@@ -167,12 +166,19 @@ var ReportContractArtifact = JSON.parse(contentsReport);
 const ReportContract = TruffleContract(ReportContractArtifact);
 ReportContract.setProvider(web3.currentProvider);
 
+var use_account;
+app.post('/GetUseAccount', function(req, res){
+  console.log("---------",req.body.account);
+  use_account = req.body.account;
+  res.send("true");
+})
+
 app.post('/IsAdmin', function(req, res){
   web3.eth.getAccounts(function(error, accounts){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     AdminContract.deployed().then(function(instance){
       return instance.GetAdminFlag.call({from: account});
     }).then(function(result){
@@ -214,13 +220,17 @@ app.post('/AsrtAdmin', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    console.log(use_account);
+    var account = use_account;
+    //account = accounts[0];
     AdminContract.deployed().then(function(instance){
-      return instance.AssertAdmin.call({from: account});
+      return instance.AssertAdmin.call({from: use_account});
     }).then(function(result){
       if(result == 1){
         console.log("YouAdmin");
         res.send(true);
+      }else{
+        res.send(false);
       }
     }).catch(function(err){
       console.log(err.message);
@@ -233,9 +243,9 @@ app.post('/CreateEmployer', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
-      return instance.CreateEmployer(req.body.fName,req.body.mName, req.body.lName, req.body.rank, {from: account, gas:190000});
+      return instance.CreateEmployer(req.body.fName,req.body.mName, req.body.lName, req.body.rank, {from: account, gas:1900000});
     }).then(function(result){
       if(result.receipt.status == 1){
         res.send(true);
@@ -252,7 +262,8 @@ app.post('/UpdateEmployerFromNum', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.UpdateEmployerFromNum(req.body.num, req.body.rank, {from: account, gas:190000});
     }).then(function(result){
@@ -271,9 +282,11 @@ app.post('/UpdateEmployerWorkplaceFromNum', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    console.log("UpdateEmployerWorkplaceFromNum", req.body.confirmFlag);
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
-      return instance.UpdateEmployerWorkplaceFromNum(req.body.num, req.body.post, req.body.department, {from: account, gas:190000});
+      return instance.UpdateEmployerWorkplaceFromNum(req.body.num, req.body.post, req.body.department, req.body.confirmFlag, {from: account, gas:190000});
     }).then(function(result){
       if(result.receipt.status == 1){
         res.send(true);
@@ -290,13 +303,14 @@ app.post('/GetEmployerArraySize', function(req, res){
     if (error){
       console.log(error);
     } 
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployerArraySize.call({from: account});
     }).then(function(result){
       console.log(result);
       res.send(result)
-    }).catch(function(err){
+    }).catch(function(err){ 
       console.log(err.message);
       console.log("DEBIL");
     });
@@ -308,7 +322,8 @@ app.post('/GetEmployerFromAddr', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployerFromEmployerAddr.call({from: account});
     }).then(function(result){
@@ -325,9 +340,9 @@ app.post('/GetEmployerNumFromEmployerAddr', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
-      return instance.GetEmployerNumFromEmployerAddr.call();
+      return instance.GetEmployerNumFromEmployerAddr.call({from: account});
     }).then(function(result){
       console.log("GetEmployerNumFromEmployerAddr", result);
       res.send(result);
@@ -344,7 +359,7 @@ app.post('/GetEmployerFromNum', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployerFromEmployerNum.call(req.body.empNum, {from: account});
     }).then(function(result){
@@ -367,12 +382,42 @@ app.post('/GetEmployerFromNum', function(req, res){
   });
 });
 
+app.post('/GetEmployerDataFromAddr', function(req, res){
+  var employerData = new Array;
+  web3.eth.getAccounts(function(error, accounts){
+    if (error){
+      console.log(error);
+    }
+    var account = use_account;
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployerFromEmployerAddr.call({from: account});
+    }).then(function(result){
+      employerData.push(result);
+      console.log("GetEmployerFromEmployerAddr",result);
+    }).catch(function(err){
+      console.log(err.message);
+      console.log("DEBIL");
+    });
+    EmployerContract.deployed().then(function(instance){
+      return instance.GetEmployerWorkplaceFromAddr.call({from: account});
+    }).then(function(result){
+      employerData.push(result);
+      console.log("GetEmployerWorkplaceFromAddr",result);
+      res.send(employerData);
+    }).catch(function(err){
+      console.log(err.message);
+      console.log("DEBIL");
+    });
+  });
+});
+
 app.post('/GetEmployersFromDepartmentId', function(req, res){
   web3.eth.getAccounts(function(error, accounts){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployersFromDepartmentId.call(req.body.department);
     }).then(function(result){
@@ -389,7 +434,8 @@ app.post('/GetEmployersFromPostId', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance){
       return instance.GetEmployersFromPostId.call(req.body.post);
     }).then(function(result){
@@ -406,7 +452,8 @@ app.post('/GetRanks', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance) {
       return instance.GetRanks.call();
     }).then(function(result) {
@@ -424,7 +471,8 @@ app.post('/GetRankFromNum', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     console.log(req.body.rankNum);
     EmployerContract.deployed().then(function(instance) {
       return instance.GetRankFromNum.call(req.body.rankNum);
@@ -449,7 +497,7 @@ app.post('/UpdateStatusEmployer',function(req,res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     EmployerContract.deployed().then(function(instance) {
       return instance.UpdateStatusEmployer(req.body.empNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
@@ -469,7 +517,8 @@ app.post('/GetDepartmentArraySize', function(req, res){
     if (error){
       console.log(error);
     } 
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     DepartmentContract.deployed().then(function(instance){
       return instance.GetDepartmentArraySize.call({from: account});
     }).then(function(result){
@@ -488,7 +537,7 @@ app.post('/GetDepartmentFromDepartmentNum', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     DepartmentContract.deployed().then(function(instance){
       return instance.GetDepartmentFromDepartmentNum.call(req.body.depNum, {from: account});
     }).then(function(result){
@@ -506,7 +555,8 @@ app.post('/GetPostArraySize', function(req, res){
     if (error){
       console.log(error);
     } 
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     PostContract.deployed().then(function(instance){
       return instance.GetPostArraySize.call({from: account});
     }).then(function(result){
@@ -524,7 +574,7 @@ app.post('/GetPostFromPostNum', function(req, res){
     if (error){
       console.log(error);
     }
-    var account = accounts[0];
+    var account = use_account;
     PostContract.deployed().then(function(instance){
       return instance.GetPostFromPostNum.call(req.body.postNum, {from: account});
     }).then(function(result){
@@ -547,7 +597,8 @@ app.post('/UpdateStatusDepartment',function(req,res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     DepartmentContract.deployed().then(function(instance) {
       return instance.UpdateStatusDepartment(req.body.depNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
@@ -573,7 +624,8 @@ app.post('/UpdateStatusPost',function(req,res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     PostContract.deployed().then(function(instance) {
       return instance.UpdateStatusPost(req.body.postNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
@@ -594,7 +646,8 @@ app.post('/CreateDepartment', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     DepartmentContract.deployed().then(function(instance) {
       return instance.CreateDepartment(req.body.depTitle, {from: account, gas:3000000});
     }).then(function(result) {
@@ -615,7 +668,8 @@ app.post('/CreatePost', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     PostContract.deployed().then(function(instance) {
       return instance.CreatePost(req.body.postTitle, {from: account, gas:3000000});
     }).then(function(result) {
@@ -636,7 +690,8 @@ app.post('/GetEmployerReportSize', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.GetEmployerReportSize.call();
     }).then(function(result){
@@ -654,7 +709,8 @@ app.post('/GetEmployersReportFromNum', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.GetEmployersReportFromNum.call(req.body.emplNum);
     }).then(function(result){
@@ -671,7 +727,8 @@ app.post('/GetEmployersReportListFromNum', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.GetEmployersReportListFromNum.call(req.body.emplNum);
     }).then(function(result){
@@ -694,7 +751,8 @@ app.post('/UpdateStatusReprot',function(req,res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance) {
       return instance.UpdateStatusReprot(req.body.empNum, newStatus, {from: account, gas:50000});
     }).then(function(result) {
@@ -714,7 +772,8 @@ app.post('/GetTemplateReportArraySize', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.GetTemplateReportArraySize.call();
     }).then(function(result){
@@ -731,7 +790,8 @@ app.post('/GetTemplateReportFromNum', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.GetTemplateReportFromNum.call(req.body.tempRep);
     }).then(function(result){
@@ -748,7 +808,8 @@ app.post('/CreateReport', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     ReportContract.deployed().then(function(instance){
       return instance.CreateReport(req.body.tempRepNum, req.body.empNum, {from:account, gas:1000000});
     }).then(function(result){
@@ -768,7 +829,8 @@ app.post('/CreateTemplateReport', function(req, res){
     if (error) {
       console.log(error);
     }
-    var account = accounts[0];
+    //var account = accounts[0];
+    var account = use_account;
     console.log("depArray ", req.body.depArray)
     ReportContract.deployed().then(function(instance){
       return instance.CreateTemplateReport(req.body.title, req.body.depArray, {from:account, gas:500000});
@@ -781,5 +843,76 @@ app.post('/CreateTemplateReport', function(req, res){
       console.log(err.message);
       res.send(false);
     })
+  })
+})
+
+app.post('/GetReportForDepartment', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    //var account = accounts[0];
+    var account = use_account;
+    ReportContract.deployed().then(function(instance){
+      return instance.GetReportForDepartment.call(req.body.depNum);
+    }).then(function(result){
+      console.log("GetReportForDepartment ", result);
+      res.send(result);
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    })
+  })
+})
+
+app.post('/UpdateStatusReportSuccess', function(req, res){
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    var account = use_account;
+    ReportContract.deployed().then(function(instance){
+      return instance.UpdateStatusReportSuccess(req.body.repNum, req.body.depNum, req.body.empNum, {from: account, gas:100000});
+    }).then(function(result){
+      console.log("UpdateStatusReportSuccess ", result.receipt.status);
+      if(result.receipt.status ==1){
+        res.send(true);
+      }
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    })
+  })
+})
+
+app.post('/GetReportFieldNameList', function(req, res){
+  var reportFieldSize;
+  var reportFieldList = new Array;
+  web3.eth.getAccounts(function(error, accounts){
+    if (error) {
+      console.log(error);
+    }
+    var account = accounts[0];
+    ReportContract.deployed().then(function(instance){
+      return instance.GetReportFieldSize.call(req.body.templateRepNum);
+    }).then(function(result){
+      console.log("GetReportFieldSize ", result);
+      reportFieldSize = result;
+    }).catch(function(err){
+      console.log(err.message);
+      res.send(false);
+    })
+    for(var i = 0; i < reportFieldSize; i++){
+      ReportContract.deployed().then(function(instance){
+        return instance.GetReportFieldNameFromFieldNum.call(req.body.templateRepNum, i);
+      }).then(function(result){
+        console.log("GetReportFieldNameFromFieldNum ", result);
+        reportFieldList.push(result);
+      }).catch(function(err){
+        console.log(err.message);
+        res.send(false);
+      })
+    }
   })
 })

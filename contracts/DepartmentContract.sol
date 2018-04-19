@@ -19,13 +19,14 @@ contract DepartmentContract is AdminContract{
     uint departmentID;
 
     function DepartmentContract() public{
-        departmentArray.push(DepartmentStruct(0, "Отдел Режима", true));
-        departmentArray.push(DepartmentStruct(1, "Информационно-библиотченый отдел", true));
-        departmentArray.push(DepartmentStruct(2, "Финансовый отдел", true));
-        departmentArray.push(DepartmentStruct(3, "Отдел материально-технического обеспечения", true));
-        departmentArray.push(DepartmentStruct(4, "Кафедра 732 ИКСИ", true));
-        departmentArray.push(DepartmentStruct(5, "Хирургический отдел медицинской службы", true));
-        departmentID = 6;
+        departmentArray.push(DepartmentStruct(0, "Без отдела", true));
+        departmentArray.push(DepartmentStruct(1, "Отдел Режима", true));
+        departmentArray.push(DepartmentStruct(2, "Информационно-библиотченый отдел", true));
+        departmentArray.push(DepartmentStruct(3, "Финансовый отдел", true));
+        departmentArray.push(DepartmentStruct(4, "Отдел материально-технического обеспечения", true));
+        departmentArray.push(DepartmentStruct(5, "Кафедра 732 ИКСИ", true));
+        departmentArray.push(DepartmentStruct(6, "Хирургический отдел медицинской службы", true));
+        departmentID = 7;
     }
 
     function CreateDepartment(string _title) returns (bool){

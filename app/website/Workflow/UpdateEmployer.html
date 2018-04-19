@@ -12,10 +12,11 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
     
     <body>
-        <h1 class="jumbotron" id="employerIDHead" onclick="document.location='/'" >Kek</h1>
+        <h1 class="jumbotron" id="employerIDHead" onclick="document.location='/'" ></h1>
         <br>
             <div class="container-fluid jumbotron">
                 <form method="post" class="form-group" action="/">
+                  
                   <select id="rankSelect" onchange="GetEmployerRank(this)" class="btn btn-info col-md-5 offset-md-1" style = "max-width: 24.666667%;">
   
                   </select>
@@ -29,8 +30,12 @@
                   </select>
                     
                 </form>
-                <button id="updateEmployerBtn" onclick="updateEmployer()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 9.666667%;" >Изменить данные</button>
-            </div>
+                <p><input class="offset-md-1" type="checkbox" id="isConfirmChB" value="a1" >Возможность подтвержать рапорта от своего отдела
+                <br>
+                <br>
+                <button id="updateEmployerBtn" onclick="updateEmployer()" class="btn btn-success col-md-5 offset-md-1" style="max-width: 12%;" >Изменить данные</button>
+            
+              </div>
             
     </body>
     
@@ -46,6 +51,7 @@
         $.post("/ParseMyUrlEmpId",{url: url}, function(data){
           if(data!=null)
           {
+            AsrtAdmin();
             document.employerNum = data;
             GetEmployerFromEmployerNum();
             GetRanks();
@@ -72,6 +78,8 @@
                           document.employerNewRank = employerList[4];
                           document.employerNewPost = employerWorkplaceList[0];
                           document.employerNewDepartment = employerWorkplaceList[1];
+                          document.isConfirm = employerWorkplaceList[2];
+                          $("#isConfirmChB").prop("checked",document.isConfirm);
                           $('#employerIDHead').html("Изменение данных сотрудника: <b>" + name + " " + family + " " + patronymic + "</b>");
                         }
                       },
@@ -101,6 +109,25 @@
           }
         })
       }
+
+    function AsrtAdmin(){
+      $.ajax({
+        type: 'POST',
+        url: '/AsrtAdmin',
+        success: function(data){
+          if(data != null){
+            document.isAdminFlag = data;
+              if(document.isAdminFlag){
+                console.log("YouAdmin");
+                
+              }else{
+                console.log("YouUser");
+              }
+          }
+        },
+        async: false
+      })
+    }
 
       function GetDepartments(){
         var department;
@@ -191,6 +218,11 @@
       function updateEmployer(){
           var flagUpdateEmp;
           var flagUpdateWorkplace;
+          if($("#isConfirmChB").prop('checked')){
+            checkConfirm = 1;
+          }else{
+            checkConfirm = 0;
+          }
           $.ajax({
             type: 'POST',
             url: '/UpdateEmployerFromNum',
@@ -207,7 +239,11 @@
           $.ajax({
             type: 'POST',
             url: '/UpdateEmployerWorkplaceFromNum',
-            data: {num:document.employerNum, post : document.employerNewPost, department: document.employerNewDepartment},
+            data: {
+              num:document.employerNum,
+              post : document.employerNewPost, 
+              department: document.employerNewDepartment,
+              confirmFlag: checkConfirm},
             success: function(data){
                 if(data!=null)
                     {
@@ -219,7 +255,12 @@
 
           if (flagUpdateEmp && flagUpdateWorkplace){
             //alert("Сотрудник обновлен!!");
-            window.location.replace("/website/Workflow/EmployerDashboard.html");
+            if(document.AsrtAdmin){
+
+            }else{
+              window.location.replace("/website/Workflow/EmployerDashboard.html");
+            }
+              window.location.replace("/website/Workflow/EmployerData.html");
           }
 
       }

@@ -19,12 +19,13 @@ contract PostContract is AdminContract{
     uint postID;
 
     function PostContract() public{
-        postArray.push(PostStruct(0, "Начальник отдела", true));
-        postArray.push(PostStruct(1, "Зам. начальник отдела", true));
-        postArray.push(PostStruct(2, "Консультант", true));
-        postArray.push(PostStruct(3, "Слушатель", true));
-        postArray.push(PostStruct(4, "Преподаватель", true));
-        uint postID = 5;
+        postArray.push(PostStruct(0, "Без должности", true));
+        postArray.push(PostStruct(1, "Начальник отдела", true));
+        postArray.push(PostStruct(2, "Зам. начальник отдела", true));
+        postArray.push(PostStruct(3, "Консультант", true));
+        postArray.push(PostStruct(4, "Слушатель", true));
+        postArray.push(PostStruct(5, "Преподаватель", true));
+        uint postID = 6;
     }
 
     function CreatePost(string _title) returns (bool){

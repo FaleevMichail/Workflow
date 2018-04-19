@@ -40,15 +40,20 @@
     var mName = $('#mName').val();
     var lName = $('#lName').val();
     var rank = $('#rank').val();
-
-      $.post("/CreateEmployer",{fName : fName, mName : mName, lName : lName,
-        rank : rank}, function(data){
-                if(data==true)
-                  {
-                    alert("Сотрудник добавлен!!");
-                    window.location.replace("/website/Workflow/EmployerDashboard.html");
-                  }
-              });
+    $.ajax({
+      type: 'POST',
+      url: '/CreateEmployer',
+      data: {fName : fName, mName : mName, lName : lName, rank : rank},
+      success: function(data){
+        if(data != null){
+          if(data == true){
+            alert("Сотрудник добавлен!!");
+            window.location.replace("/website/Workflow/EmployerData.html");
+          }
+        }
+      },
+      async: true
+    })
   }
 
   $('.form-control').bind("keypress", function(){
